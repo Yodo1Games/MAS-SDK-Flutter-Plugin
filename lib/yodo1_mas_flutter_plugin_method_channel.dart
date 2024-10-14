@@ -23,6 +23,7 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
       switch(call.method) {
         case Yodo1MasConstants.methodFlutterInitEvent: {
           bool successful = call.arguments["successful"];
+          log('SDK Init Status: $successful');
           if (_initCallback != null) {
             _initCallback!(successful);
           }
@@ -42,9 +43,9 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
             message = call.arguments["message"] ?? '';
           }
 
-          log(type.toString());
-          log(code.toString());
-          log(message);
+          log('Flutter event type: $type');
+          log('Flutter event code: $code');
+          log('Flutter event message: $message');
         }
       }
       return Future<bool>.value(true);

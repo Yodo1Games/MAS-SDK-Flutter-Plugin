@@ -109,7 +109,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
           } catch (JSONException e) {
             e.printStackTrace();
           }
-          channel.invokeMethod(METHOD_FLUTTER_INIT_EVENT, initEvent);
+          channel.invokeMethod(METHOD_FLUTTER_INIT_EVENT, initEvent.toString());
           result.success(1);
         }
 
@@ -153,7 +153,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                       e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
 
 
@@ -167,7 +167,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
 
 
@@ -182,7 +182,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
 
 
@@ -196,7 +196,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
 
 
@@ -211,7 +211,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
 
                 @Override
@@ -225,7 +225,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
               });
             }
@@ -247,7 +247,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
 
                 @Override
@@ -259,7 +259,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
 
                 @Override
@@ -271,7 +271,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
 
                 @Override
@@ -283,7 +283,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
 
                 @Override
@@ -295,7 +295,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
               });
             }
@@ -318,7 +318,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
 
                 @Override
@@ -330,7 +330,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
 
                 @Override
@@ -342,7 +342,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
 
                 @Override
@@ -354,7 +354,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
 
                 @Override
@@ -366,7 +366,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                   } catch (JSONException e) {
                     e.printStackTrace();
                   }
-                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
                 }
               });
             }
