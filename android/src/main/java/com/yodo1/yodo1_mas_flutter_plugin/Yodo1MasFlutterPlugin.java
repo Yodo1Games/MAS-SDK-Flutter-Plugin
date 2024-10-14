@@ -13,6 +13,8 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import com.yodo1.mas.Yodo1Mas;
+import com.yodo1.mas.error.Yodo1MasError;
+import com.yodo1.mas.helper.model.Yodo1MasAdBuildConfig;
 import com.yodo1.mas.interstitial.Yodo1MasInterstitialAd;
 import com.yodo1.mas.interstitial.Yodo1MasInterstitialAdListener;
 import com.yodo1.mas.reward.Yodo1MasRewardAd;
@@ -74,11 +76,25 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
     boolean gdpr = call.argument("gdpr");
 
     if (appKey != null) {
+      Yodo1MasAdBuildConfig config = new Yodo1MasAdBuildConfig.Builder().enableUserPrivacyDialog(privacy).build();
       Yodo1MasAppOpenAd.getInstance().autoDelayIfLoadFail = true;
       Yodo1MasInterstitialAd.getInstance().autoDelayIfLoadFail = true;
       Yodo1MasRewardAd.getInstance().autoDelayIfLoadFail = true;
-      initSdk(appKey, privacy, ccpa, coppa, gdpr);
-      result.success(1);
+      Yodo1Mas.getInstance().setCCPA(ccpa);
+      Yodo1Mas.getInstance().setCOPPA(coppa);
+      Yodo1Mas.getInstance().setGDPR(gdpr);
+      Yodo1Mas.getInstance().setAdBuildConfig(config);
+      Yodo1Mas.getInstance().initMas(activity, appKey, new Yodo1Mas.InitListener() {
+        @Override
+        public void onMasInitSuccessful() {
+          result.success(1);
+        }
+
+        @Override
+        public void onMasInitFailed(@NonNull Yodo1MasError error) {
+        }
+      });
+
     } else {
       result.error("INVALID_ARGUMENTS", "Invalid arguments for native_init_sdk", null);
     }

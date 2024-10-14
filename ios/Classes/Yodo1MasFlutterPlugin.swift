@@ -137,21 +137,4 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
             self.channel?.invokeMethod(self.METHOD_FLUTTER_INIT_EVENT, arguments: ["successful": false, "error": error?.getJsonObject()])
         })
     }
-
-    // Delegate methods
-    public func onAdOpened(_ event: Yodo1MasAdEvent) {
-        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: event.getJsonObject())
-    }
-
-    public func onAdClosed(_ event: Yodo1MasAdEvent) {
-        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: event.getJsonObject())
-    }
-
-    public func onAdError(_ event: Yodo1MasAdEvent, error: Yodo1MasError) {
-        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: event.getJsonObject())
-    }
-
-    public func onAdRewardEarned(_ event: Yodo1MasAdEvent) {
-        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: event.getJsonObject())
-    }
 }
