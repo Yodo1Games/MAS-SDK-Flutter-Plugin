@@ -39,13 +39,13 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
             Map<String, dynamic> map = json.decode(call.arguments);
              type = map["type"];
              code = map["code"];
-             message = map["message"];
+             message = map["message"] ?? '';
           }
           else
             {
                type = call.arguments["type"];
                code = call.arguments["code"];
-               message = call.arguments["message"];
+               message = call.arguments["message"] ?? '';
             }
 
           log(type.toString());

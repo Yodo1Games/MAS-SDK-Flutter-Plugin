@@ -13,6 +13,7 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import com.yodo1.mas.Yodo1Mas;
+import com.yodo1.mas.appopenad.Yodo1MasAppOpenAdListener;
 import com.yodo1.mas.error.Yodo1MasError;
 import com.yodo1.mas.helper.model.Yodo1MasAdBuildConfig;
 import com.yodo1.mas.interstitial.Yodo1MasInterstitialAd;
@@ -20,6 +21,9 @@ import com.yodo1.mas.interstitial.Yodo1MasInterstitialAdListener;
 import com.yodo1.mas.reward.Yodo1MasRewardAd;
 import com.yodo1.mas.reward.Yodo1MasRewardAdListener;
 import com.yodo1.mas.appopenad.Yodo1MasAppOpenAd;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /** Yodo1MasFlutterPlugin */
 public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -36,6 +40,21 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
   private static final String METHOD_NATIVE_IS_AD_LOADED = "native_is_ad_loaded";
   private static final String METHOD_NATIVE_LOAD_AD = "native_load_ad";
   private static final String METHOD_NATIVE_SHOW_AD = "native_show_ad";
+  private static final String METHOD_FLUTTER_INIT_EVENT = "flutter_init_event";
+  private static final String METHOD_FLUTTER_AD_EVENT = "flutter_ad_event";
+
+  // Ad Type Codes
+  static final int AD_TYPE_REWARD = 1;
+  static final int AD_TYPE_INTERSTITIAL = 2;
+  static final int AD_TYPE_APP_OPEN = 4;
+
+  // Ad Event Codes
+  static final int AD_EVENT_OPENED = 1001;
+  static final int AD_EVENT_CLOSED = 1002;
+  static final int AD_EVENT_FAILED_TO_OPEN = 1003;
+  static final int AD_EVENT_LOADED = 1004;
+  static final int AD_EVENT_FAILED_TO_LOAD = 1005;
+  static final int AD_EVENT_EARNED = 2001;
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
@@ -105,13 +124,237 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
     if (type != null) {
       switch (type) {
         case "Reward":
-          Yodo1MasRewardAd.getInstance().loadAd(activity);
+          activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+              Yodo1MasRewardAd.getInstance().loadAd(activity);
+              Yodo1MasRewardAd.getInstance().setAdListener(new Yodo1MasRewardAdListener() {
+                @Override
+                public void onRewardAdLoaded(Yodo1MasRewardAd ad) {
+                  // Code to be executed when an ad finishes loading.
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                      adEvent.put("type", AD_TYPE_REWARD);
+                      adEvent.put("code", AD_EVENT_LOADED);
+                  } catch (JSONException e) {
+                      e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+
+
+                @Override
+                public void onRewardAdFailedToLoad(Yodo1MasRewardAd ad, @NonNull Yodo1MasError error) {
+                  // Code to be executed when an ad request fails.
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_REWARD);
+                    adEvent.put("code", AD_EVENT_FAILED_TO_LOAD);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+
+
+                @Override
+                public void onRewardAdOpened(Yodo1MasRewardAd ad) {
+                  // Code to be executed when an ad opens an overlay that
+                  // covers the screen.
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_REWARD);
+                    adEvent.put("code", AD_EVENT_OPENED);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+
+
+                @Override
+                public void onRewardAdFailedToOpen(Yodo1MasRewardAd ad, @NonNull Yodo1MasError error) {
+                  // Code to be executed when an ad open fails.
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_REWARD);
+                    adEvent.put("code", AD_EVENT_FAILED_TO_OPEN);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+
+
+                @Override
+                public void onRewardAdClosed(Yodo1MasRewardAd ad) {
+                  // Code to be executed when the user is about to return
+                  // to the app after tapping on an ad.
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_REWARD);
+                    adEvent.put("code", AD_EVENT_CLOSED);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+
+                @Override
+                public void onRewardAdEarned(Yodo1MasRewardAd ad) {
+                  // Code to be executed when the user is about to return
+                  // to the app after tapping on an ad.
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_REWARD);
+                    adEvent.put("code", AD_EVENT_EARNED);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+              });
+            }
+          });
           break;
         case "Interstitial":
-          Yodo1MasInterstitialAd.getInstance().loadAd(activity);
+          activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+              Yodo1MasInterstitialAd.getInstance().loadAd(activity);
+              Yodo1MasInterstitialAd.getInstance().setAdListener(new Yodo1MasInterstitialAdListener() {
+                @Override
+                public void onInterstitialAdLoaded(Yodo1MasInterstitialAd ad) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_INTERSTITIAL);
+                    adEvent.put("code", AD_EVENT_LOADED);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+
+                @Override
+                public void onInterstitialAdFailedToLoad(Yodo1MasInterstitialAd ad, @NonNull Yodo1MasError error) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_INTERSTITIAL);
+                    adEvent.put("code", AD_EVENT_FAILED_TO_LOAD);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+
+                @Override
+                public void onInterstitialAdOpened(Yodo1MasInterstitialAd ad) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_INTERSTITIAL);
+                    adEvent.put("code", AD_EVENT_OPENED);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+
+                @Override
+                public void onInterstitialAdFailedToOpen(Yodo1MasInterstitialAd ad, @NonNull Yodo1MasError error) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_INTERSTITIAL);
+                    adEvent.put("code", AD_EVENT_FAILED_TO_OPEN);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+
+                @Override
+                public void onInterstitialAdClosed(Yodo1MasInterstitialAd ad) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_INTERSTITIAL);
+                    adEvent.put("code", AD_EVENT_CLOSED);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+              });
+            }
+          });
+
           break;
         case "AppOpen":
-          Yodo1MasAppOpenAd.getInstance().loadAd(activity);
+          activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+              Yodo1MasAppOpenAd.getInstance().loadAd(activity);
+              Yodo1MasAppOpenAd.getInstance().setAdListener(new Yodo1MasAppOpenAdListener() {
+                @Override
+                public void onAppOpenAdLoaded(Yodo1MasAppOpenAd ad) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_APP_OPEN);
+                    adEvent.put("code", AD_EVENT_LOADED);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+
+                @Override
+                public void onAppOpenAdFailedToLoad(Yodo1MasAppOpenAd ad, @NonNull Yodo1MasError error) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_APP_OPEN);
+                    adEvent.put("code", AD_EVENT_FAILED_TO_LOAD);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+
+                @Override
+                public void onAppOpenAdOpened(Yodo1MasAppOpenAd ad) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_APP_OPEN);
+                    adEvent.put("code", AD_EVENT_OPENED);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+
+                @Override
+                public void onAppOpenAdFailedToOpen(Yodo1MasAppOpenAd ad, @NonNull Yodo1MasError error) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_APP_OPEN);
+                    adEvent.put("code", AD_EVENT_FAILED_TO_OPEN);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+
+                @Override
+                public void onAppOpenAdClosed(Yodo1MasAppOpenAd ad) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_APP_OPEN);
+                    adEvent.put("code", AD_EVENT_CLOSED);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent);
+                }
+              });
+            }
+          });
           break;
         default:
           break;
