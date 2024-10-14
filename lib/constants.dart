@@ -1,20 +1,22 @@
-class Yodo1MASConstants {
-  static const String CHANNEL = "com.yodo1.mas/sdk";
-  static const String METHOD_NATIVE_INIT_SDK = "native_init_sdk";
-  static const String METHOD_NATIVE_IS_AD_LOADED = "native_is_ad_loaded";
-  static const String METHOD_NATIVE_LOAD_AD = "native_load_ad";
-  static const String METHOD_NATIVE_SHOW_AD = "native_show_ad";
-  static const String METHOD_FLUTTER_INIT_EVENT = "flutter_init_event";
-  static const String METHOD_FLUTTER_AD_EVENT = "flutter_ad_event";
+class Yodo1MasConstants {
+  static const String channel = "com.yodo1.mas/sdk";
+  static const String methodNativeInitSdk = "native_init_sdk";
+  static const String methodNativeIsAdLoaded = "native_is_ad_loaded";
+  static const String methodNativeLoadAd = "native_load_ad";
+  static const String methodNativeShowAd = "native_show_ad";
+  static const String methodFlutterInitEvent = "flutter_init_event";
+  static const String methodFlutterAdEvent = "flutter_ad_event";
 
   // Type of event
-  static const AD_TYPE_REWARD = 1;
-  static const AD_TYPE_INTERSTITIAL = 2;
-  static const AD_TYPE_APP_OPEN = 4;
+  static const int adTypeReward = 1;
+  static const int adTypeInterstitial = 2;
+  static const int adTypeAppOpen = 4;
 
   // Type of code
-  static const AD_EVENT_OPENED = 1001;
-  static const AD_EVENT_CLOSED = 1002;
-  static const AD_EVENT_ERROR = 1003;
-  static const AD_EVENT_EARNED = 2001;
+  static const int adEventOpened = 1001;
+  static const int adEventClosed = 1002;
+  static const int adEventFailedToOpen = 1003;
+  static const int adEventLoaded = 1004;
+  static const int adEventFailedToLoad = 1005;
+  static const int adEventEarned = 2001;
 }

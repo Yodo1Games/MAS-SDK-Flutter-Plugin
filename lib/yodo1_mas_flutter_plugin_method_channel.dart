@@ -16,47 +16,41 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
 
   /// The method channel used to interact with the native platform.
   @visibleForTesting
-  final methodChannel = const MethodChannel(Yodo1MASConstants.CHANNEL);
+  final methodChannel = const MethodChannel(Yodo1MasConstants.channel);
 
   Future<void> initSdk(String appKey, bool privacy, bool ccpa, bool coppa, bool gdpr) async {
     methodChannel.setMethodCallHandler((call) {
-
       switch(call.method) {
-
-        case Yodo1MASConstants.METHOD_FLUTTER_INIT_EVENT: {
-
+        case Yodo1MasConstants.methodFlutterInitEvent: {
           bool successful = call.arguments["successful"];
           if (_initCallback != null) {
             _initCallback!(successful);
           }
           return Future<bool>.value(true);
         }
-        case Yodo1MASConstants.METHOD_FLUTTER_AD_EVENT: {
+        case Yodo1MasConstants.methodFlutterAdEvent: {
           int type, code;
           String message;
-          if (defaultTargetPlatform == TargetPlatform.android)
-          {
+          if (defaultTargetPlatform == TargetPlatform.android) {
             Map<String, dynamic> map = json.decode(call.arguments);
-             type = map["type"];
-             code = map["code"];
-             message = map["message"] ?? '';
+            type = map["type"];
+            code = map["code"];
+            message = map["message"] ?? '';
+          } else {
+            type = call.arguments["type"];
+            code = call.arguments["code"];
+            message = call.arguments["message"] ?? '';
           }
-          else
-            {
-               type = call.arguments["type"];
-               code = call.arguments["code"];
-               message = call.arguments["message"] ?? '';
-            }
 
           log(type.toString());
           log(code.toString());
           log(message);
         }
-
       }
       return Future<bool>.value(true);
     });
-    await methodChannel.invokeMethod(Yodo1MASConstants.METHOD_NATIVE_INIT_SDK, {
+
+    await methodChannel.invokeMethod(Yodo1MasConstants.methodNativeInitSdk, {
       'app_key': appKey,
       'privacy': privacy,
       'ccpa': ccpa,
@@ -66,20 +60,20 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
   }
 
   Future<void> loadAd(String adType) async {
-    await methodChannel.invokeMethod(Yodo1MASConstants.METHOD_NATIVE_LOAD_AD, {
+    await methodChannel.invokeMethod(Yodo1MasConstants.methodNativeLoadAd, {
       'ad_type': adType,
     });
   }
 
   Future<bool> isAdLoaded(String adType) async {
-    final isLoaded = await methodChannel.invokeMethod<bool>(Yodo1MASConstants.METHOD_NATIVE_IS_AD_LOADED, {
+    final isLoaded = await methodChannel.invokeMethod<bool>(Yodo1MasConstants.methodNativeIsAdLoaded, {
       'ad_type': adType,
     });
     return isLoaded ?? false;
   }
 
   Future<void> showAd(String adType, {String? placementId}) async {
-    await methodChannel.invokeMethod(Yodo1MASConstants.METHOD_NATIVE_SHOW_AD, {
+    await methodChannel.invokeMethod(Yodo1MasConstants.methodNativeShowAd, {
       'ad_type': adType,
       'placement_id': placementId,
     });

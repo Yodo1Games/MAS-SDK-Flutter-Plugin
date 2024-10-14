@@ -96,9 +96,6 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
 
     if (appKey != null) {
       Yodo1MasAdBuildConfig config = new Yodo1MasAdBuildConfig.Builder().enableUserPrivacyDialog(privacy).build();
-      Yodo1MasAppOpenAd.getInstance().autoDelayIfLoadFail = true;
-      Yodo1MasInterstitialAd.getInstance().autoDelayIfLoadFail = true;
-      Yodo1MasRewardAd.getInstance().autoDelayIfLoadFail = true;
       Yodo1Mas.getInstance().setCCPA(ccpa);
       Yodo1Mas.getInstance().setCOPPA(coppa);
       Yodo1Mas.getInstance().setGDPR(gdpr);
@@ -106,11 +103,27 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
       Yodo1Mas.getInstance().initMas(activity, appKey, new Yodo1Mas.InitListener() {
         @Override
         public void onMasInitSuccessful() {
+          JSONObject initEvent = new JSONObject();
+          try {
+            initEvent.put("successful", true);
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
+          channel.invokeMethod(METHOD_FLUTTER_INIT_EVENT, initEvent);
           result.success(1);
         }
 
         @Override
         public void onMasInitFailed(@NonNull Yodo1MasError error) {
+          JSONObject initEvent = new JSONObject();
+          try {
+            initEvent.put("successful", false);
+            initEvent.put("error", error.getJsonObject());
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
+          channel.invokeMethod(METHOD_FLUTTER_INIT_EVENT, initEvent);
+          result.error("INIT_FAILED", error.getMessage(), null);
         }
       });
 
@@ -124,6 +137,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
     if (type != null) {
       switch (type) {
         case "Reward":
+          Yodo1MasRewardAd.getInstance().autoDelayIfLoadFail = true;
           activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -218,6 +232,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
           });
           break;
         case "Interstitial":
+          Yodo1MasInterstitialAd.getInstance().autoDelayIfLoadFail = true;
           activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -288,6 +303,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
 
           break;
         case "AppOpen":
+          Yodo1MasAppOpenAd.getInstance().autoDelayIfLoadFail = true;
           activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {

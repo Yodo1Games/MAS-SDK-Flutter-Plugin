@@ -16,6 +16,19 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
     private let METHOD_FLUTTER_INIT_EVENT = "flutter_init_event"
     private let METHOD_FLUTTER_AD_EVENT = "flutter_ad_event"
 
+    // Ad Type Codes
+    private let AD_TYPE_REWARD = 1
+    private let AD_TYPE_INTERSTITIAL = 2
+    private let AD_TYPE_APP_OPEN = 4
+
+    // Event Type Codes
+    private let AD_EVENT_OPENED = 1001
+    private let AD_EVENT_CLOSED = 1002
+    private let AD_EVENT_FAILED_TO_OPEN = 1003
+    private let AD_EVENT_LOADED = 1004
+    private let AD_EVENT_FAILED_TO_LOAD = 1005
+    private let AD_EVENT_EARNED = 2001
+
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "com.yodo1.mas/sdk", binaryMessenger: registrar.messenger())
         let instance = Yodo1MasFlutterPlugin()
@@ -51,10 +64,6 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
             result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid arguments for native_init_sdk", details: nil))
             return
         }
-
-        Yodo1MasAppOpenAd.sharedInstance().autoDelayIfLoadFail = true
-        Yodo1MasInterstitialAd.sharedInstance().autoDelayIfLoadFail = true
-        Yodo1MasRewardAd.sharedInstance().autoDelayIfLoadFail = true
         initSdk(appKey: appKey, privacy: privacy, ccpa: ccpa, coppa: coppa, gdpr: gdpr)
         result(1)
     }
@@ -66,10 +75,16 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
         }
         switch type {
         case "Reward":
+            Yodo1MasRewardAd.sharedInstance().adDelegate = self
+            Yodo1MasRewardAd.sharedInstance().autoDelayIfLoadFail = true
             Yodo1MasRewardAd.sharedInstance().load()
         case "Interstitial":
+            Yodo1MasInterstitialAd.sharedInstance().adDelegate = self
+            Yodo1MasInterstitialAd.sharedInstance().autoDelayIfLoadFail = true
             Yodo1MasInterstitialAd.sharedInstance().load()
         case "AppOpen":
+            Yodo1MasInterstitialAd.sharedInstance().adDelegate = self
+            Yodo1MasAppOpenAd.sharedInstance().autoDelayIfLoadFail = true
             Yodo1MasAppOpenAd.sharedInstance().load()
         default:
             break
@@ -136,5 +151,79 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
         }, fail: { error in
             self.channel?.invokeMethod(self.METHOD_FLUTTER_INIT_EVENT, arguments: ["successful": false, "error": error?.getJsonObject()])
         })
+    }
+    
+    
+
+}
+
+extension Yodo1MasFlutterPlugin: Yodo1MasRewardDelegate {
+    public func onRewardAdLoaded(_ ad: Yodo1MasRewardAd) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_REWARD, "code": AD_EVENT_LOADED])
+    }
+
+    public func onRewardAdFailed(toLoad ad: Yodo1MasRewardAd, withError error: Yodo1MasError) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_REWARD, "code": AD_EVENT_FAILED_TO_LOAD])
+    }
+
+    public func onRewardAdOpened(_ ad: Yodo1MasRewardAd) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_REWARD, "code": AD_EVENT_OPENED])
+    }
+
+    public func onRewardAdFailed(toOpen ad: Yodo1MasRewardAd, withError error: Yodo1MasError) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_REWARD, "code": AD_EVENT_FAILED_TO_OPEN])
+    }
+
+    public func onRewardAdClosed(_ ad: Yodo1MasRewardAd) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_REWARD, "code": AD_EVENT_CLOSED])
+    }
+
+    public func onRewardAdEarned(_ ad: Yodo1MasRewardAd) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_REWARD, "code": AD_EVENT_EARNED])
+    }
+}
+
+extension Yodo1MasFlutterPlugin: Yodo1MasInterstitialDelegate {
+    private func onInterstitialAdLoaded(_ ad: Yodo1MasRewardedInterstitialAd) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_INTERSTITIAL, "code": AD_EVENT_LOADED])
+    }
+
+    private func onInterstitialAdFailed(toLoad ad: Yodo1MasRewardedInterstitialAd, withError error: Yodo1MasError) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_INTERSTITIAL, "code": AD_EVENT_FAILED_TO_LOAD])
+    }
+
+    private func onInterstitialAdOpened(_ ad: Yodo1MasRewardedInterstitialAd) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_INTERSTITIAL, "code": AD_EVENT_OPENED])
+    }
+
+    private func onInterstitialAdFailed(toOpen ad: Yodo1MasRewardedInterstitialAd, withError error: Yodo1MasError) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_INTERSTITIAL, "code": AD_EVENT_FAILED_TO_LOAD])
+    }
+
+    private func onInterstitialAdClosed(_ ad: Yodo1MasRewardedInterstitialAd) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_INTERSTITIAL, "code": AD_EVENT_CLOSED])
+    }
+}
+
+extension Yodo1MasFlutterPlugin: Yodo1MasAppOpenAdDelegate {
+    public func onAppOpenAdLoaded(_ ad: Yodo1MasAppOpenAd) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_APP_OPEN, "code": AD_EVENT_LOADED])
+    }
+
+    public func onAppOpenAdFailed(toLoad ad: Yodo1MasAppOpenAd, withError error: Yodo1MasError) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_APP_OPEN, "code": AD_EVENT_FAILED_TO_LOAD])
+    }
+
+    public func onAppOpenAdOpened(_ ad: Yodo1MasAppOpenAd) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_APP_OPEN, "code": AD_EVENT_OPENED])
+    }
+
+    public func onAppOpenAdFailed(toOpen ad: Yodo1MasAppOpenAd, withError error: Yodo1MasError) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_APP_OPEN, "code": AD_EVENT_FAILED_TO_OPEN])
+    }
+    
+
+    public func onAppOpenAdClosed(_ ad: Yodo1MasAppOpenAd) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_APP_OPEN, "code": AD_EVENT_CLOSED])
     }
 }
