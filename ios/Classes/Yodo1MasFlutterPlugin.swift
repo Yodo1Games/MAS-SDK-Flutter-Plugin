@@ -21,12 +21,6 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
         let instance = Yodo1MasFlutterPlugin()
         instance.channel = channel
         registrar.addMethodCallDelegate(instance, channel: channel)
-
-        let bannerAdFactory = BannerAdFactory(messenger: registrar.messenger())
-        registrar.registerViewFactory(bannerAdFactory, withId: "com.yodo1.mas/sdk/bannerAd")
-
-        let nativeAdFactory = NativeAdFactory(messenger: registrar.messenger())
-        registrar.registerViewFactory(nativeAdFactory, withId: "com.yodo1.mas/sdk/nativeAd")
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -72,11 +66,11 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
         }
         switch type {
         case "Reward":
-            Yodo1MasRewardAd.sharedInstance().loadAd()
+            Yodo1MasRewardAd.sharedInstance().load()
         case "Interstitial":
-            Yodo1MasInterstitialAd.sharedInstance().loadAd()
+            Yodo1MasInterstitialAd.sharedInstance().load()
         case "AppOpen":
-            Yodo1MasAppOpenAd.sharedInstance().loadAd()
+            Yodo1MasAppOpenAd.sharedInstance().load()
         default:
             break
         }
@@ -89,11 +83,11 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
         }
         switch type {
         case "Reward":
-            return Yodo1MasRewardAd.sharedInstance().isLoaded
+            return Yodo1MasRewardAd.sharedInstance().isLoaded()
         case "Interstitial":
-            return Yodo1MasInterstitialAd.sharedInstance().isLoaded
+            return Yodo1MasInterstitialAd.sharedInstance().isLoaded()
         case "AppOpen":
-            return Yodo1MasAppOpenAd.sharedInstance().isLoaded
+            return Yodo1MasAppOpenAd.sharedInstance().isLoaded()
         default:
             return false
         }
@@ -108,21 +102,21 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
         switch type {
         case "Reward":
             if let placementId = placementId {
-                Yodo1MasRewardAd.sharedInstance().showAd(withPlacement: placementId)
+                Yodo1MasRewardAd.sharedInstance().show(withPlacement: placementId)
             } else {
-                Yodo1MasRewardAd.sharedInstance().showAd()
+                Yodo1MasRewardAd.sharedInstance().show()
             }
         case "Interstitial":
             if let placementId = placementId {
-                Yodo1MasInterstitialAd.sharedInstance().showAd(withPlacement: placementId)
+                Yodo1MasInterstitialAd.sharedInstance().show(withPlacement: placementId)
             } else {
-                Yodo1MasInterstitialAd.sharedInstance().showAd()
+                Yodo1MasInterstitialAd.sharedInstance().show()
             }
         case "AppOpen":
             if let placementId = placementId {
-                Yodo1MasAppOpenAd.sharedInstance().showAd(withPlacement: placementId)
+                Yodo1MasAppOpenAd.sharedInstance().show(withPlacement: placementId)
             } else {
-                Yodo1MasAppOpenAd.sharedInstance().showAd()
+                Yodo1MasAppOpenAd.sharedInstance().show()
             }
         default:
             break
@@ -140,7 +134,7 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
         Yodo1Mas.sharedInstance().initMas(withAppKey: appKey, successful: {
             self.channel?.invokeMethod(self.METHOD_FLUTTER_INIT_EVENT, arguments: ["successful": true])
         }, fail: { error in
-            self.channel?.invokeMethod(self.METHOD_FLUTTER_INIT_EVENT, arguments: ["successful": false, "error": error.getJsonObject()])
+            self.channel?.invokeMethod(self.METHOD_FLUTTER_INIT_EVENT, arguments: ["successful": false, "error": error?.getJsonObject()])
         })
     }
 
