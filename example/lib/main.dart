@@ -47,15 +47,54 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  Future<void> loadAd(String adType) async {
+    try {
+      await _yodo1MasFlutterPlugin.loadAd(adType);
+      print('$adType ad loaded successfully.');
+    } catch (e) {
+      print('Failed to load $adType ad: $e');
+    }
+  }
+
+  Future<void> showAd(String adType) async {
+    try {
+      await _yodo1MasFlutterPlugin.showAd(adType);
+      print('$adType ad shown successfully.');
+    } catch (e) {
+      print('Failed to show $adType ad: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Yodo1 Flutter Plugin'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Running on: $_platformVersion\n'),
+              ElevatedButton(
+                onPressed: () => loadAd('interstitial'),
+                child: const Text('Load Interstitial Ad'),
+              ),
+              ElevatedButton(
+                onPressed: () => showAd('interstitial'),
+                child: const Text('Show Interstitial Ad'),
+              ),
+              ElevatedButton(
+                onPressed: () => loadAd('rewarded'),
+                child: const Text('Load Rewarded Ad'),
+              ),
+              ElevatedButton(
+                onPressed: () => showAd('rewarded'),
+                child: const Text('Show Rewarded Ad'),
+              ),
+            ],
+          ),
         ),
       ),
     );

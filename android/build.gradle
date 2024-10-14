@@ -2,6 +2,7 @@ group = "com.yodo1.yodo1_mas_flutter_plugin"
 version = "1.0"
 
 buildscript {
+    ext.kotlin_version = '1.7.10'
     repositories {
         google()
         mavenCentral()
@@ -9,6 +10,7 @@ buildscript {
 
     dependencies {
         classpath("com.android.tools.build:gradle:8.1.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
     }
 }
 
@@ -16,10 +18,15 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://artifact.bytedance.com/repository/pangle" }
+        maven { url "https://android-sdk.is.com" }
+        maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
+        maven { url "https://artifactory.bidmachine.io/bidmachine" }
     }
 }
 
 apply plugin: "com.android.library"
+apply plugin: 'kotlin-android'
 
 android {
     if (project.android.hasProperty("namespace")) {
@@ -35,6 +42,7 @@ android {
 
     defaultConfig {
         minSdk = 21
+        multiDexEnabled = true
     }
 
     dependencies {
@@ -51,4 +59,9 @@ android {
             }
         }
     }
+}
+
+dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version")
+    implementation("com.yodo1.mas:full:4.13.2")
 }
