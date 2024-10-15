@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initMASSdk() async {
-    _yodo1MasFlutterPlugin.initSdk("JR835c6fza", false, true, false, false);
+    _yodo1MasFlutterPlugin.initSdk("JR835c6fza", true, true, false, false);
   }
 
   Future<void> loadAd(String adType) async {
@@ -40,6 +40,11 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> showAd(String adType) async {
+    bool isLoaded = await _yodo1MasFlutterPlugin.isAdLoaded(adType);
+    print('Loaded $isLoaded $adType');
+    if (!isLoaded) {
+      print('Ad type $adType is not loaded');
+    }
     try {
       await _yodo1MasFlutterPlugin.showAd(adType);
       print('$adType ad shown successfully.');

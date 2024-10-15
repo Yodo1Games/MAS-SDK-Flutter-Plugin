@@ -61,12 +61,14 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
   }
 
   Future<void> loadAd(String adType) async {
+    print('Calling loadAd $adType');
     await methodChannel.invokeMethod(Yodo1MasConstants.methodNativeLoadAd, {
       'ad_type': adType,
     });
   }
 
   Future<bool> isAdLoaded(String adType) async {
+    print('Calling isAdLoaded $adType');
     final isLoaded = await methodChannel.invokeMethod<bool>(Yodo1MasConstants.methodNativeIsAdLoaded, {
       'ad_type': adType,
     });
@@ -74,6 +76,7 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
   }
 
   Future<void> showAd(String adType, {String? placementId}) async {
+    print('Calling showAd $adType');
     await methodChannel.invokeMethod(Yodo1MasConstants.methodNativeShowAd, {
       'ad_type': adType,
       'placement_id': placementId,
