@@ -27,8 +27,16 @@ abstract class Yodo1MasFlutterPluginPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<void> initSdk(String appKey, bool privacy, bool ccpa, bool coppa, bool gdpr);
-  Future<void> loadAd(String adType);
-  Future<bool> isAdLoaded(String adType);
-  Future<void> showAd(String adType, {String? placementId});
+  Future<void> initSdk(String appKey, bool privacy, bool ccpa, bool coppa, bool gdpr) {
+    throw UnimplementedError('initSdk(str, bool, bool, bool, bool) has not been implemented.');
+  }
+  Future<void> loadAd(String adType) {
+    throw UnimplementedError('loadAd(str) has not been implemented.');
+  }
+  Future<bool> isAdLoaded(String adType) {
+    throw UnimplementedError('isAdLoaded(str) has not been implemented');
+  }
+  Future<void> showAd(String adType, {String? placementId}) {
+    throw UnimplementedError('showAd(str, str) has not been implemented');
+  }
 }

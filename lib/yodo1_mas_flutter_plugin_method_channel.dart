@@ -18,8 +18,11 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel(Yodo1MasConstants.channel);
 
+  @override
   Future<void> initSdk(String appKey, bool privacy, bool ccpa, bool coppa, bool gdpr) async {
     methodChannel.setMethodCallHandler((call) {
+      String method = call.method;
+      log('Method call: $method');
       switch(call.method) {
         case Yodo1MasConstants.methodFlutterInitEvent: {
           bool successful = call.arguments["successful"];
@@ -46,6 +49,24 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
           log('Flutter event type: $type');
           log('Flutter event code: $code');
           log('Flutter event message: $message');
+
+          switch (type) {
+            case Yodo1MasConstants.adTypeReward:
+              if (_rewardCallback != null) {
+                _rewardCallback!(code, message);
+              }
+              break;
+            case Yodo1MasConstants.adTypeInterstitial:
+              if (_interstitialCallback != null) {
+                _interstitialCallback!(code, message);
+              }
+              break;
+            case Yodo1MasConstants.adTypeAppOpen:
+              if (_appOpenCallback != null) {
+                _appOpenCallback!(code, message);
+              }
+              break;
+          }
         }
       }
       return Future<bool>.value(true);
@@ -60,23 +81,23 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
     });
   }
 
+  @override
   Future<void> loadAd(String adType) async {
-    print('Calling loadAd $adType');
     await methodChannel.invokeMethod(Yodo1MasConstants.methodNativeLoadAd, {
       'ad_type': adType,
     });
   }
 
+  @override
   Future<bool> isAdLoaded(String adType) async {
-    print('Calling isAdLoaded $adType');
     final isLoaded = await methodChannel.invokeMethod<bool>(Yodo1MasConstants.methodNativeIsAdLoaded, {
       'ad_type': adType,
     });
     return isLoaded ?? false;
   }
 
+  @override
   Future<void> showAd(String adType, {String? placementId}) async {
-    print('Calling showAd $adType');
     await methodChannel.invokeMethod(Yodo1MasConstants.methodNativeShowAd, {
       'ad_type': adType,
       'placement_id': placementId,
