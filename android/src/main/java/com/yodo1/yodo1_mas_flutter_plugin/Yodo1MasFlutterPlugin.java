@@ -43,6 +43,9 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
   private static final String METHOD_NATIVE_SHOW_AD = "native_show_ad";
   private static final String METHOD_FLUTTER_INIT_EVENT = "flutter_init_event";
   private static final String METHOD_FLUTTER_AD_EVENT = "flutter_ad_event";
+  private static final String AD_TYPE_REWARDED_NAME = "Rewarded";
+  private static final String AD_TYPE_INTERSTITIAL_NAME = "Interstitial";
+  private static final String AD_TYPE_APP_OPEN_NAME = "AppOpen";
 
   // Ad Type Codes
   static final int AD_TYPE_REWARD = 1;
@@ -141,7 +144,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
     }
     if (type != null) {
       switch (type) {
-        case "Rewarded":
+        case Yodo1MasFlutterPlugin.AD_TYPE_REWARDED_NAME:
           Yodo1MasRewardAd.getInstance().autoDelayIfLoadFail = true;
           activity.runOnUiThread(() -> {
             Yodo1MasRewardAd.getInstance().loadAd(activity);
@@ -233,7 +236,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
             });
           });
           break;
-        case "Interstitial":
+        case Yodo1MasFlutterPlugin.AD_TYPE_INTERSTITIAL_NAME:
           Yodo1MasInterstitialAd.getInstance().autoDelayIfLoadFail = true;
           activity.runOnUiThread(() -> {
             Yodo1MasInterstitialAd.getInstance().loadAd(activity);
@@ -301,7 +304,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
           });
 
           break;
-        case "AppOpen":
+        case Yodo1MasFlutterPlugin.AD_TYPE_APP_OPEN_NAME:
           Yodo1MasAppOpenAd.getInstance().autoDelayIfLoadFail = true;
           activity.runOnUiThread(() -> {
             Yodo1MasAppOpenAd.getInstance().loadAd(activity);
@@ -379,11 +382,11 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
     Log.d("Yodo1MasFlutterPlugin", "handleIsAdLoaded call arguments: " + call.arguments);
     if (type != null) {
       switch (type) {
-        case "Reward":
+        case Yodo1MasFlutterPlugin.AD_TYPE_REWARDED_NAME:
           return Yodo1MasRewardAd.getInstance().isLoaded();
-        case "Interstitial":
+        case Yodo1MasFlutterPlugin.AD_TYPE_INTERSTITIAL_NAME:
           return Yodo1MasInterstitialAd.getInstance().isLoaded();
-        case "AppOpen":
+        case Yodo1MasFlutterPlugin.AD_TYPE_APP_OPEN_NAME:
           return Yodo1MasAppOpenAd.getInstance().isLoaded();
         default:
           return false;
@@ -398,7 +401,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
     Log.d("Yodo1MasFlutterPlugin", "handleIsAdLoaded call arguments: " + call.arguments);
     if (type != null) {
       switch (type) {
-        case "Reward":
+        case Yodo1MasFlutterPlugin.AD_TYPE_REWARDED_NAME:
           activity.runOnUiThread(() -> {
             if (placementId != null) {
               Yodo1MasRewardAd.getInstance().showAd(activity, placementId);
@@ -407,7 +410,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
             }
           });
           break;
-        case "Interstitial":
+        case Yodo1MasFlutterPlugin.AD_TYPE_INTERSTITIAL_NAME:
           activity.runOnUiThread(() -> {
             if (placementId != null) {
               Yodo1MasInterstitialAd.getInstance().showAd(activity, placementId);
@@ -416,7 +419,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
             }
           });
           break;
-        case "AppOpen":
+        case Yodo1MasFlutterPlugin.AD_TYPE_APP_OPEN_NAME:
           activity.runOnUiThread(() -> {
             if (placementId != null) {
               Yodo1MasAppOpenAd.getInstance().showAd(activity, placementId);
