@@ -74,7 +74,7 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
             return
         }
         switch type {
-        case "Reward":
+        case "Rewarded":
             Yodo1MasRewardAd.sharedInstance().adDelegate = self
             Yodo1MasRewardAd.sharedInstance().autoDelayIfLoadFail = true
             Yodo1MasRewardAd.sharedInstance().load()

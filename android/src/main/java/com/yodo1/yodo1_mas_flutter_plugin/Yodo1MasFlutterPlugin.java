@@ -141,7 +141,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
     }
     if (type != null) {
       switch (type) {
-        case "Reward":
+        case "Rewarded":
           Yodo1MasRewardAd.getInstance().autoDelayIfLoadFail = true;
           activity.runOnUiThread(() -> {
             Yodo1MasRewardAd.getInstance().loadAd(activity);
