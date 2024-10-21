@@ -2,6 +2,7 @@ package com.yodo1.yodo1_mas_flutter_plugin;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -65,6 +66,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
+    Log.d("Yodo1MasFlutterPlugin", "onMethodCall: " + call.method);
     switch (call.method) {
       case METHOD_NATIVE_INIT_SDK:
         handleInitSdk(call, result);
@@ -134,6 +136,9 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
 
   private void handleLoadAd(MethodCall call) {
     String type = call.argument("ad_type");
+    if (type != null) {
+        Log.d("Yodo1MasFlutterPlugin", "Flutter SDK Channel Call - Load Ad - " + type);
+    }
     if (type != null) {
       switch (type) {
         case "Reward":
@@ -371,6 +376,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
 
   private boolean handleIsAdLoaded(MethodCall call) {
     String type = call.argument("ad_type");
+    Log.d("Yodo1MasFlutterPlugin", "handleIsAdLoaded call arguments: " + call.arguments);
     if (type != null) {
       switch (type) {
         case "Reward":
@@ -389,6 +395,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
   private void handleShowAd(MethodCall call) {
     String type = call.argument("ad_type");
     String placementId = call.argument("placement_id");
+    Log.d("Yodo1MasFlutterPlugin", "handleIsAdLoaded call arguments: " + call.arguments);
     if (type != null) {
       switch (type) {
         case "Reward":

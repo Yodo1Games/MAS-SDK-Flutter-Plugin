@@ -1,6 +1,10 @@
 import 'yodo1_mas_flutter_plugin_platform_interface.dart';
 
 class Yodo1MasFlutterPlugin {
+
+  static const String adTypeInterstitial = "Interstitial";
+  static const String adTypeAppOpen = "AppOpen";
+  static const String adTypeRewarded = "Rewarded";
   
   Future<void> initSdk(String appKey, bool privacy, bool ccpa, bool coppa, bool gdpr) {
     return Yodo1MasFlutterPluginPlatform.instance.initSdk(appKey, privacy, ccpa, coppa, gdpr);

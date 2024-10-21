@@ -66,19 +66,19 @@ class _MyAppState extends State<MyApp> {
             children: [
               Text('Running on: $_platformVersion\n'),
               ElevatedButton(
-                onPressed: () => loadAd('interstitial'),
+                onPressed: () => loadAd(Yodo1MasFlutterPlugin.adTypeInterstitial),
                 child: const Text('Load Interstitial Ad'),
               ),
               ElevatedButton(
-                onPressed: () => showAd('interstitial'),
+                onPressed: () => showAd(Yodo1MasFlutterPlugin.adTypeInterstitial),
                 child: const Text('Show Interstitial Ad'),
               ),
               ElevatedButton(
-                onPressed: () => loadAd('rewarded'),
+                onPressed: () => loadAd(Yodo1MasFlutterPlugin.adTypeRewarded),
                 child: const Text('Load Rewarded Ad'),
               ),
               ElevatedButton(
-                onPressed: () => showAd('rewarded'),
+                onPressed: () => showAd(Yodo1MasFlutterPlugin.adTypeRewarded),
                 child: const Text('Show Rewarded Ad'),
               ),
             ],

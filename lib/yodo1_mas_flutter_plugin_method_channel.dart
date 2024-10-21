@@ -22,11 +22,11 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
   Future<void> initSdk(String appKey, bool privacy, bool ccpa, bool coppa, bool gdpr) async {
     methodChannel.setMethodCallHandler((call) {
       String method = call.method;
-      log('Method call: $method');
-      switch(call.method) {
+      log('Yodo1 Flutter SDK Method call: $method');
+      switch(method) {
         case Yodo1MasConstants.methodFlutterInitEvent: {
           bool successful = call.arguments["successful"];
-          log('SDK Init Status: $successful');
+          log('Yodo1 Flutter SDK init status: $successful');
           if (_initCallback != null) {
             _initCallback!(successful);
           }
@@ -46,9 +46,9 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
             message = call.arguments["message"] ?? '';
           }
 
-          log('Flutter event type: $type');
-          log('Flutter event code: $code');
-          log('Flutter event message: $message');
+          log('Yodo1 Flutter event type: $type');
+          log('Yodo1 Flutter event code: $code');
+          log('Yodo1 Flutter event message: $message');
 
           switch (type) {
             case Yodo1MasConstants.adTypeReward:
@@ -83,6 +83,7 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
 
   @override
   Future<void> loadAd(String adType) async {
+    log('Yodo1 Flutter SDK Channel Call - Load Ad - $adType');
     await methodChannel.invokeMethod(Yodo1MasConstants.methodNativeLoadAd, {
       'ad_type': adType,
     });
@@ -90,6 +91,7 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
 
   @override
   Future<bool> isAdLoaded(String adType) async {
+    log('Yodo1 Flutter SDK Channel Call - Is Ad Loaded - $adType');
     final isLoaded = await methodChannel.invokeMethod<bool>(Yodo1MasConstants.methodNativeIsAdLoaded, {
       'ad_type': adType,
     });
@@ -98,6 +100,7 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
 
   @override
   Future<void> showAd(String adType, {String? placementId}) async {
+    log('Yodo1 Flutter SDK Channel Call - Show Ad $adType, $placementId');
     await methodChannel.invokeMethod(Yodo1MasConstants.methodNativeShowAd, {
       'ad_type': adType,
       'placement_id': placementId,

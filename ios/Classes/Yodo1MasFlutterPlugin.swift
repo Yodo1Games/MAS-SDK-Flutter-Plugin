@@ -30,7 +30,7 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
     private let AD_EVENT_EARNED = 2001
 
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "com.yodo1.mas/sdk", binaryMessenger: registrar.messenger())
+        let channel = FlutterMethodChannel(name: CHANNEL, binaryMessenger: registrar.messenger())
         let instance = Yodo1MasFlutterPlugin()
         instance.channel = channel
         registrar.addMethodCallDelegate(instance, channel: channel)
