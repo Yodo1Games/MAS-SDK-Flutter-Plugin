@@ -39,4 +39,19 @@ abstract class Yodo1MasFlutterPluginPlatform extends PlatformInterface {
   Future<void> showAd(String adType, {String? placementId}) {
     throw UnimplementedError('showAd(str, str) has not been implemented');
   }
+  void setInitListener(Function(bool successful)? callback) {
+    throw UnimplementedError('setInitListener(Function(bool)?) has not been implemented.');
+  }
+
+  void setRewardListener(Function(int event, String message)? callback) {
+    throw UnimplementedError('setRewardListener(Function(int, String)?) has not been implemented.');
+  }
+
+  void setInterstitialListener(Function(int event, String message)? callback) {
+    throw UnimplementedError('setInterstitialListener(Function(int, String)?) has not been implemented.');
+  }
+
+  void setAppOpenListener(Function(int event, String message)? callback) {
+    throw UnimplementedError('setAppOpenListener(Function(int, String)?) has not been implemented.');
+  }
 }

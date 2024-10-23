@@ -22,4 +22,20 @@ class Yodo1MasFlutterPlugin {
     return Yodo1MasFlutterPluginPlatform.instance.showAd(adType, placementId: placementId);
   }
 
+  void setInitListener(Function(bool successful)? callback) {
+    Yodo1MasFlutterPluginPlatform.instance.setInitListener(callback);
+  }
+
+  void setRewardListener(Function(int event, String message)? callback) {
+    Yodo1MasFlutterPluginPlatform.instance.setRewardListener(callback);
+  }
+
+  void setInterstitialListener(Function(int event, String message)? callback) {
+    Yodo1MasFlutterPluginPlatform.instance.setInterstitialListener(callback);
+  }
+
+  void setAppOpenListener(Function(int event, String message)? callback) {
+    Yodo1MasFlutterPluginPlatform.instance.setAppOpenListener(callback);
+  }
+
 }

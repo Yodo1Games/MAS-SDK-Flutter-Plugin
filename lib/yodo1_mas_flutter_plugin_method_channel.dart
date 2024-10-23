@@ -20,6 +20,8 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
 
   @override
   Future<void> initSdk(String appKey, bool privacy, bool ccpa, bool coppa, bool gdpr) async {
+    String methodChannelName = methodChannel.name;
+    log('Yodo1 Flutter SDK MethodChannel registering $methodChannelName');
     methodChannel.setMethodCallHandler((call) {
       String method = call.method;
       log('Yodo1 Flutter SDK Method call: $method');
@@ -107,6 +109,9 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
     });
   }
 
+  void setInitListener(Function(bool successful)? callback) {
+    _initCallback = callback;
+  }
 
   void setRewardListener(Function(int event, String message)? callback) {
     _rewardCallback = callback;
@@ -119,6 +124,7 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
   void setAppOpenListener(Function(int event, String message)? callback) {
     _appOpenCallback = callback;
   }
+
 
 
 }
