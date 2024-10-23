@@ -9,7 +9,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-7188592076082444~3141926755</string>
+	<string>ca-app-pub-test~test</string>
 	<key>GADIsAdManagerApp</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

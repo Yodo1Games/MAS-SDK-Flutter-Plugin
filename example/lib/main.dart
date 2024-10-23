@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -27,7 +29,23 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initMASSdk() async {
-    _yodo1MasFlutterPlugin.initSdk("JR835c6fza", true, true, false, false);
+    _yodo1MasFlutterPlugin.setInitListener((bool successful) {
+      print('Yodo1 Flutter Init successful $successful');
+    });
+    _yodo1MasFlutterPlugin.setInterstitialListener((int code, String message) {
+      print('Yodo1 Flutter Callback Interstitial $code $message');
+    });
+    _yodo1MasFlutterPlugin.setRewardListener((int code, String message) {
+      print('Yodo1 Flutter Callback Rewarded $code $message');
+    });
+    _yodo1MasFlutterPlugin.setAppOpenListener((int code, String message) {
+      print('Yodo1 Flutter Callback AppOpen $code $message');
+    });
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
+      _yodo1MasFlutterPlugin.initSdk("<iOS appKey>", true, true, false, false);
+    } else if (Theme.of(context).platform == TargetPlatform.android) {
+      _yodo1MasFlutterPlugin.initSdk("<android appKey>", true, true, false, false);
+    }
   }
 
   Future<void> loadAd(String adType) async {
@@ -65,6 +83,14 @@ class _MyAppState extends State<MyApp> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('Running on: $_platformVersion\n'),
+              ElevatedButton(
+                onPressed: () => loadAd(Yodo1MasFlutterPlugin.adTypeAppOpen),
+                child: const Text('Load AppOpen Ad'),
+              ),
+              ElevatedButton(
+                onPressed: () => showAd(Yodo1MasFlutterPlugin.adTypeAppOpen),
+                child: const Text('Show AppOpen Ad'),
+              ),
               ElevatedButton(
                 onPressed: () => loadAd(Yodo1MasFlutterPlugin.adTypeInterstitial),
                 child: const Text('Load Interstitial Ad'),

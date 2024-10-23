@@ -8,16 +8,16 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
     private var controller: UIViewController?
     private weak var channel: FlutterMethodChannel?
     
-    private let CHANNEL = "com.yodo1.mas/sdk"
+    private static let CHANNEL = "com.yodo1.mas/sdk"
     private let METHOD_NATIVE_INIT_SDK = "native_init_sdk"
     private let METHOD_NATIVE_IS_AD_LOADED = "native_is_ad_loaded"
     private let METHOD_NATIVE_LOAD_AD = "native_load_ad"
     private let METHOD_NATIVE_SHOW_AD = "native_show_ad"
     private let METHOD_FLUTTER_INIT_EVENT = "flutter_init_event"
     private let METHOD_FLUTTER_AD_EVENT = "flutter_ad_event"
-    private static let AD_TYPE_REWARDED_NAME = "Rewarded"
-    private static let AD_TYPE_INTERSTITIAL_NAME = "Interstitial"
-    private static let AD_TYPE_APP_OPEN_NAME = "AppOpen"
+    private let AD_TYPE_REWARDED_NAME = "Rewarded"
+    private let AD_TYPE_INTERSTITIAL_NAME = "Interstitial"
+    private let AD_TYPE_APP_OPEN_NAME = "AppOpen"
 
     // Ad Type Codes
     private let AD_TYPE_REWARDED = 1
@@ -33,7 +33,7 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
     private let AD_EVENT_EARNED = 2001
 
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: CHANNEL, binaryMessenger: registrar.messenger())
+        let channel = FlutterMethodChannel(name: Yodo1MasFlutterPlugin.CHANNEL, binaryMessenger: registrar.messenger())
         let instance = Yodo1MasFlutterPlugin()
         instance.channel = channel
         registrar.addMethodCallDelegate(instance, channel: channel)

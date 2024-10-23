@@ -65,6 +65,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), CHANNEL);
     channel.setMethodCallHandler(this);
     context = flutterPluginBinding.getApplicationContext();
+    initializeEventListeners();
   }
 
   @Override
@@ -145,231 +146,24 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
       Log.d("Yodo1MasFlutterPlugin", "Flutter SDK Channel Call - Load Ad - " + type);
       switch (type) {
         case Yodo1MasFlutterPlugin.AD_TYPE_REWARDED_NAME:
-          Yodo1MasRewardAd.getInstance().autoDelayIfLoadFail = true;
+          Log.d("Yodo1MasFlutterPlugin", "Flutter SDK Channel Call - Loading Rewarded Ad - " + type);
           activity.runOnUiThread(() -> {
+            Yodo1MasRewardAd.getInstance().autoDelayIfLoadFail = true;
             Yodo1MasRewardAd.getInstance().loadAd(activity);
-            Yodo1MasRewardAd.getInstance().setAdListener(new Yodo1MasRewardAdListener() {
-              @Override
-              public void onRewardAdLoaded(Yodo1MasRewardAd ad) {
-                // Code to be executed when an ad finishes loading.
-                JSONObject adEvent = new JSONObject();
-                try {
-                    adEvent.put("type", AD_TYPE_REWARD);
-                    adEvent.put("code", AD_EVENT_LOADED);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-
-
-              @Override
-              public void onRewardAdFailedToLoad(Yodo1MasRewardAd ad, @NonNull Yodo1MasError error) {
-                // Code to be executed when an ad request fails.
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_REWARD);
-                  adEvent.put("code", AD_EVENT_FAILED_TO_LOAD);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-
-
-              @Override
-              public void onRewardAdOpened(Yodo1MasRewardAd ad) {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_REWARD);
-                  adEvent.put("code", AD_EVENT_OPENED);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-
-
-              @Override
-              public void onRewardAdFailedToOpen(Yodo1MasRewardAd ad, @NonNull Yodo1MasError error) {
-                // Code to be executed when an ad open fails.
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_REWARD);
-                  adEvent.put("code", AD_EVENT_FAILED_TO_OPEN);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-
-
-              @Override
-              public void onRewardAdClosed(Yodo1MasRewardAd ad) {
-                // Code to be executed when the user is about to return
-                // to the app after tapping on an ad.
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_REWARD);
-                  adEvent.put("code", AD_EVENT_CLOSED);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-
-              @Override
-              public void onRewardAdEarned(Yodo1MasRewardAd ad) {
-                // Code to be executed when the user is about to return
-                // to the app after tapping on an ad.
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_REWARD);
-                  adEvent.put("code", AD_EVENT_EARNED);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-            });
           });
           break;
         case Yodo1MasFlutterPlugin.AD_TYPE_INTERSTITIAL_NAME:
-          Yodo1MasInterstitialAd.getInstance().autoDelayIfLoadFail = true;
+          Log.d("Yodo1MasFlutterPlugin", "Flutter SDK Channel Call - Loading Interstitial Ad - " + type);
           activity.runOnUiThread(() -> {
+            Yodo1MasInterstitialAd.getInstance().autoDelayIfLoadFail = true;
             Yodo1MasInterstitialAd.getInstance().loadAd(activity);
-            Yodo1MasInterstitialAd.getInstance().setAdListener(new Yodo1MasInterstitialAdListener() {
-              @Override
-              public void onInterstitialAdLoaded(Yodo1MasInterstitialAd ad) {
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_INTERSTITIAL);
-                  adEvent.put("code", AD_EVENT_LOADED);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-
-              @Override
-              public void onInterstitialAdFailedToLoad(Yodo1MasInterstitialAd ad, @NonNull Yodo1MasError error) {
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_INTERSTITIAL);
-                  adEvent.put("code", AD_EVENT_FAILED_TO_LOAD);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-
-              @Override
-              public void onInterstitialAdOpened(Yodo1MasInterstitialAd ad) {
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_INTERSTITIAL);
-                  adEvent.put("code", AD_EVENT_OPENED);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-
-              @Override
-              public void onInterstitialAdFailedToOpen(Yodo1MasInterstitialAd ad, @NonNull Yodo1MasError error) {
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_INTERSTITIAL);
-                  adEvent.put("code", AD_EVENT_FAILED_TO_OPEN);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-
-              @Override
-              public void onInterstitialAdClosed(Yodo1MasInterstitialAd ad) {
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_INTERSTITIAL);
-                  adEvent.put("code", AD_EVENT_CLOSED);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-            });
           });
-
           break;
         case Yodo1MasFlutterPlugin.AD_TYPE_APP_OPEN_NAME:
           Log.d("Yodo1MasFlutterPlugin", "Flutter SDK Channel Call - Loading AppOpenAd Ad - " + type);
-          Yodo1MasAppOpenAd.getInstance().autoDelayIfLoadFail = true;
           activity.runOnUiThread(() -> {
+            Yodo1MasAppOpenAd.getInstance().autoDelayIfLoadFail = true;
             Yodo1MasAppOpenAd.getInstance().loadAd(activity);
-            Yodo1MasAppOpenAd.getInstance().setAdListener(new Yodo1MasAppOpenAdListener() {
-              @Override
-              public void onAppOpenAdLoaded(Yodo1MasAppOpenAd ad) {
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_APP_OPEN);
-                  adEvent.put("code", AD_EVENT_LOADED);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-
-              @Override
-              public void onAppOpenAdFailedToLoad(Yodo1MasAppOpenAd ad, @NonNull Yodo1MasError error) {
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_APP_OPEN);
-                  adEvent.put("code", AD_EVENT_FAILED_TO_LOAD);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-
-              @Override
-              public void onAppOpenAdOpened(Yodo1MasAppOpenAd ad) {
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_APP_OPEN);
-                  adEvent.put("code", AD_EVENT_OPENED);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-
-              @Override
-              public void onAppOpenAdFailedToOpen(Yodo1MasAppOpenAd ad, @NonNull Yodo1MasError error) {
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_APP_OPEN);
-                  adEvent.put("code", AD_EVENT_FAILED_TO_OPEN);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-
-              @Override
-              public void onAppOpenAdClosed(Yodo1MasAppOpenAd ad) {
-                JSONObject adEvent = new JSONObject();
-                try {
-                  adEvent.put("type", AD_TYPE_APP_OPEN);
-                  adEvent.put("code", AD_EVENT_CLOSED);
-                } catch (JSONException e) {
-                  e.printStackTrace();
-                }
-                channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
-              }
-            });
           });
           break;
         default:
@@ -433,6 +227,222 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
           break;
       }
     }
+  }
+
+  private void initializeEventListeners() {
+    // Initialize Rewarded Ad listeners
+    Yodo1MasRewardAd.getInstance().setAdListener(new Yodo1MasRewardAdListener() {
+      @Override
+      public void onRewardAdLoaded(Yodo1MasRewardAd ad) {
+        // Code to be executed when an ad finishes loading.
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_REWARD);
+          adEvent.put("code", AD_EVENT_LOADED);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+
+
+      @Override
+      public void onRewardAdFailedToLoad(Yodo1MasRewardAd ad, @NonNull Yodo1MasError error) {
+        // Code to be executed when an ad request fails.
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_REWARD);
+          adEvent.put("code", AD_EVENT_FAILED_TO_LOAD);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+
+
+      @Override
+      public void onRewardAdOpened(Yodo1MasRewardAd ad) {
+        // Code to be executed when an ad opens an overlay that
+        // covers the screen.
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_REWARD);
+          adEvent.put("code", AD_EVENT_OPENED);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+
+
+      @Override
+      public void onRewardAdFailedToOpen(Yodo1MasRewardAd ad, @NonNull Yodo1MasError error) {
+        // Code to be executed when an ad open fails.
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_REWARD);
+          adEvent.put("code", AD_EVENT_FAILED_TO_OPEN);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+
+
+      @Override
+      public void onRewardAdClosed(Yodo1MasRewardAd ad) {
+        // Code to be executed when the user is about to return
+        // to the app after tapping on an ad.
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_REWARD);
+          adEvent.put("code", AD_EVENT_CLOSED);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+
+      @Override
+      public void onRewardAdEarned(Yodo1MasRewardAd ad) {
+        // Code to be executed when the user is about to return
+        // to the app after tapping on an ad.
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_REWARD);
+          adEvent.put("code", AD_EVENT_EARNED);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+    });
+    // Initialize Interstitial Ad listeners
+    Yodo1MasInterstitialAd.getInstance().setAdListener(new Yodo1MasInterstitialAdListener() {
+      @Override
+      public void onInterstitialAdLoaded(Yodo1MasInterstitialAd ad) {
+        JSONObject adEvent = new JSONObject();
+        Log.d("Yodo1MasFlutterPlugin", "onInterstitialAdLoaded 1");
+        try {
+          adEvent.put("type", AD_TYPE_INTERSTITIAL);
+          adEvent.put("code", AD_EVENT_LOADED);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        Log.d("Yodo1MasFlutterPlugin", "onInterstitialAdLoaded 1" + METHOD_FLUTTER_AD_EVENT + " - " + adEvent.toString());
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+
+      @Override
+      public void onInterstitialAdFailedToLoad(Yodo1MasInterstitialAd ad, @NonNull Yodo1MasError error) {
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_INTERSTITIAL);
+          adEvent.put("code", AD_EVENT_FAILED_TO_LOAD);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+
+      @Override
+      public void onInterstitialAdOpened(Yodo1MasInterstitialAd ad) {
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_INTERSTITIAL);
+          adEvent.put("code", AD_EVENT_OPENED);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+
+      @Override
+      public void onInterstitialAdFailedToOpen(Yodo1MasInterstitialAd ad, @NonNull Yodo1MasError error) {
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_INTERSTITIAL);
+          adEvent.put("code", AD_EVENT_FAILED_TO_OPEN);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+
+      @Override
+      public void onInterstitialAdClosed(Yodo1MasInterstitialAd ad) {
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_INTERSTITIAL);
+          adEvent.put("code", AD_EVENT_CLOSED);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+    });
+    // Initialize App Open Ads listeners
+    Yodo1MasAppOpenAd.getInstance().setAdListener(new Yodo1MasAppOpenAdListener() {
+      @Override
+      public void onAppOpenAdLoaded(Yodo1MasAppOpenAd ad) {
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_APP_OPEN);
+          adEvent.put("code", AD_EVENT_LOADED);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+
+      @Override
+      public void onAppOpenAdFailedToLoad(Yodo1MasAppOpenAd ad, @NonNull Yodo1MasError error) {
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_APP_OPEN);
+          adEvent.put("code", AD_EVENT_FAILED_TO_LOAD);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+
+      @Override
+      public void onAppOpenAdOpened(Yodo1MasAppOpenAd ad) {
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_APP_OPEN);
+          adEvent.put("code", AD_EVENT_OPENED);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+
+      @Override
+      public void onAppOpenAdFailedToOpen(Yodo1MasAppOpenAd ad, @NonNull Yodo1MasError error) {
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_APP_OPEN);
+          adEvent.put("code", AD_EVENT_FAILED_TO_OPEN);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+
+      @Override
+      public void onAppOpenAdClosed(Yodo1MasAppOpenAd ad) {
+        JSONObject adEvent = new JSONObject();
+        try {
+          adEvent.put("type", AD_TYPE_APP_OPEN);
+          adEvent.put("code", AD_EVENT_CLOSED);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+      }
+    });
   }
 
   @Override
