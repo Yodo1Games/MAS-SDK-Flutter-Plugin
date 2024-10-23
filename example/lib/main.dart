@@ -44,7 +44,8 @@ class _MyAppState extends State<MyApp> {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       _yodo1MasFlutterPlugin.initSdk("<iOS appKey>", true, true, false, false);
     } else if (Theme.of(context).platform == TargetPlatform.android) {
-      _yodo1MasFlutterPlugin.initSdk("<android appKey>", true, true, false, false);
+      _yodo1MasFlutterPlugin.initSdk(
+          "<android appKey>", true, true, false, false);
     }
   }
 
@@ -92,11 +93,13 @@ class _MyAppState extends State<MyApp> {
                 child: const Text('Show AppOpen Ad'),
               ),
               ElevatedButton(
-                onPressed: () => loadAd(Yodo1MasFlutterPlugin.adTypeInterstitial),
+                onPressed: () =>
+                    loadAd(Yodo1MasFlutterPlugin.adTypeInterstitial),
                 child: const Text('Load Interstitial Ad'),
               ),
               ElevatedButton(
-                onPressed: () => showAd(Yodo1MasFlutterPlugin.adTypeInterstitial),
+                onPressed: () =>
+                    showAd(Yodo1MasFlutterPlugin.adTypeInterstitial),
                 child: const Text('Show Interstitial Ad'),
               ),
               ElevatedButton(
