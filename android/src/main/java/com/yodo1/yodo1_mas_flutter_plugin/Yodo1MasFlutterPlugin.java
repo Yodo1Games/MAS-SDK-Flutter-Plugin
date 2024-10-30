@@ -50,7 +50,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
   // Ad Type Codes
   static final int AD_TYPE_REWARD = 1;
   static final int AD_TYPE_INTERSTITIAL = 2;
-  static final int AD_TYPE_APP_OPEN = 4;
+  static final int AD_TYPE_APP_OPEN = 3;
 
   // Ad Event Codes
   static final int AD_EVENT_OPENED = 1001;
@@ -116,7 +116,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
             e.printStackTrace();
           }
           Log.d("Yodo1MasFlutterPlugin", "Flutter SDK Callback - Init Successful - " + initEvent.toString());
-          channel.invokeMethod(METHOD_FLUTTER_INIT_EVENT, initEvent.toString());
+          channel.invokeMethod(METHOD_FLUTTER_INIT_EVENT  , initEvent.toString());
           result.success(1);
         }
 
