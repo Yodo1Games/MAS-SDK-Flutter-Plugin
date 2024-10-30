@@ -21,10 +21,10 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
   Future<void> initSdk(
       String appKey, bool privacy, bool ccpa, bool coppa, bool gdpr) async {
     String methodChannelName = methodChannel.name;
-    log('Yodo1Flutter Plugin registering channel name $methodChannelName');
+    log('Yodo1 Flutter Plugin registering channel name $methodChannelName');
     methodChannel.setMethodCallHandler((call) {
       String method = call.method;
-      log('Yodo1Flutter Plugin method call: $method');
+      log('Yodo1 Flutter Plugin method call: $method');
       switch (method) {
         case Yodo1MasConstants.methodFlutterInitEvent:
           {
