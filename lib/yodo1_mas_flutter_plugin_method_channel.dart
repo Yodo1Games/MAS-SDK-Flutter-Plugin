@@ -28,8 +28,13 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
       switch (method) {
         case Yodo1MasConstants.methodFlutterInitEvent:
           {
-            bool successful = call.arguments["successful"];
-            log('Yodo1 Flutter SDK init status: $successful');
+            bool successful;
+            if (defaultTargetPlatform == TargetPlatform.android) {
+              Map<String, dynamic> map = json.decode(call.arguments);
+              successful = map["successful"];
+            } else {
+              successful = call.arguments["successful"];
+            }
             if (_initCallback != null) {
               _initCallback!(successful);
             }

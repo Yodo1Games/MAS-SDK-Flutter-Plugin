@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:yodo1_mas_flutter_plugin/constants.dart';
 import 'package:yodo1_mas_flutter_plugin/yodo1_mas_flutter_plugin.dart';
 
 void main() {
@@ -33,12 +34,23 @@ class _MyAppState extends State<MyApp> {
       print('Yodo1 Flutter Init successful $successful');
     });
     _yodo1MasFlutterPlugin.setInterstitialListener((int code, String message) {
+      bool value = code == Yodo1MasConstants.adEventOpened;
+      print('Comparison value $value');
+      if (code == Yodo1MasConstants.adEventOpened) {
+        print('Yodo1 Flutter Interstitial Opened $code $message');
+      }
       print('Yodo1 Flutter Callback Interstitial $code $message');
     });
     _yodo1MasFlutterPlugin.setRewardListener((int code, String message) {
+      if (code == Yodo1MasConstants.adEventOpened) {
+        print('Yodo1 Flutter Rewarded Opened $code $message');
+      }
       print('Yodo1 Flutter Callback Rewarded $code $message');
     });
     _yodo1MasFlutterPlugin.setAppOpenListener((int code, String message) {
+      if (code == Yodo1MasConstants.adEventOpened) {
+        print('Yodo1 Flutter AppOpen Opened $code $message');
+      }
       print('Yodo1 Flutter Callback AppOpen $code $message');
     });
     if (Theme.of(context).platform == TargetPlatform.iOS) {
