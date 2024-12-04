@@ -18,3 +18,7 @@
 * Updated readme with event listener examples
 * Fixed issues with initCallback
 * Fixed issue with incorrect ad type code for AppOpen
+
+## 0.0.5
+
+* Add banner and native ad types support

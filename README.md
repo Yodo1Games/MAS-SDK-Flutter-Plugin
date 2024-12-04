@@ -14,8 +14,8 @@ This plugin supports all new ad types and features supported by [Yodo1 MAS](http
 | App Open Ads       | ✅      | Yodo1MasFlutterPlugin.adTypeAppOpen | [Link](./example/lib/main.dart#L86) |
 | Interstitial Ads   | ✅      | Yodo1MasFlutterPlugin.adTypeInterstitial | [Link](./example/lib/main.dart#L94) |
 | Rewarded Ads       | ✅      | Yodo1MasFlutterPlugin.adTypeRewarded | [Link](./example/lib/main.dart#L102) |
-| Banner Ads         | 🔨      |                  |         |
-| Native Ads         | 🔨      |                  |         |
+| Banner Ads         | ✅      | Yodo1MasFlutterPlugin.adTypeBanner |         |
+| Native Ads         | ✅      | Yodo1MasFlutterPlugin.adTypeNative |         |
 
 ## Initialization
 
@@ -115,7 +115,7 @@ Ad Events in the SDK are denoted using codes -
 | Ad Opened                | 1001       |
 | Ad Closed                | 1002       |
 | Ad Failed to Open        | 1003       |
-| Reward Earned (Rewarded Only)              | 2001       |
+| Reward Earned (Rewarded Only) | 2001       |
 
 
 
@@ -244,5 +244,63 @@ You can listen for various ad events by using the following methods:
       }
     });
     ```
+
+## Banner Ads
+
+To load and display a banner ad, use the following methods:
+
+```dart
+// Load a banner ad
+await yodo1MasFlutterPlugin.loadAd(Yodo1MasFlutterPlugin.adTypeBanner);
+
+// Check if the banner ad is loaded
+bool isBannerLoaded = await yodo1MasFlutterPlugin.isAdLoaded(Yodo1MasFlutterPlugin.adTypeBanner);
+
+// Display the banner ad
+await yodo1MasFlutterPlugin.showAd(Yodo1MasFlutterPlugin.adTypeBanner);
+```
+
+### Adding Banner Ad Listener
+
+You can listen to banner ad events by setting a banner listener:
+
+```dart
+_yodo1MasFlutterPlugin.setBannerListener((int code, String message) {
+  if (code == Yodo1MasConstants.adEventLoaded) {
+    print('Banner Ad Loaded: $message');
+  } else if (code == Yodo1MasConstants.adEventFailedToLoad) {
+    print('Banner Ad Failed to Load: $message');
+  }
+});
+```
+
+## Native Ads
+
+To load and display a native ad, use the following methods:
+
+```dart
+// Load a native ad
+await yodo1MasFlutterPlugin.loadAd(Yodo1MasFlutterPlugin.adTypeNative);
+
+// Check if the native ad is loaded
+bool isNativeLoaded = await yodo1MasFlutterPlugin.isAdLoaded(Yodo1MasFlutterPlugin.adTypeNative);
+
+// Display the native ad
+await yodo1MasFlutterPlugin.showAd(Yodo1MasFlutterPlugin.adTypeNative);
+```
+
+### Adding Native Ad Listener
+
+You can listen to native ad events by setting a native listener:
+
+```dart
+_yodo1MasFlutterPlugin.setNativeListener((int code, String message) {
+  if (code == Yodo1MasConstants.adEventLoaded) {
+    print('Native Ad Loaded: $message');
+  } else if (code == Yodo1MasConstants.adEventFailedToLoad) {
+    print('Native Ad Failed to Load: $message');
+  }
+});
+```
 
 Make sure to handle these events appropriately in your application to enhance user experience and track ad performance.
