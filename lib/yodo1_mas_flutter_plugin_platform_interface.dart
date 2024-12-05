@@ -65,4 +65,13 @@ abstract class Yodo1MasFlutterPluginPlatform extends PlatformInterface {
     throw UnimplementedError(
         'setAppOpenListener(Function(int, String)?) has not been implemented.');
   }
+
+  void setBannerListener(Function(int event, String message)? callback) {
+    throw UnimplementedError(
+        'setBannerListener(Function(int, String)?) has not been implemented.');
+  }
+
+  void setNativeListener(Function(int event, String message)? callback) {
+    throw UnimplementedError(
+        'setNativeListener(Function(int, String)?) has not been implemented.');
 }
