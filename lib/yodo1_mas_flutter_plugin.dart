@@ -48,4 +48,5 @@ class Yodo1MasFlutterPlugin {
 
   void setNativeListener(Function(int event, String message)? callback) {
     Yodo1MasFlutterPluginPlatform.instance.setNativeListener(callback);
+  }
 }
