@@ -4,6 +4,8 @@ class Yodo1MasFlutterPlugin {
   static const String adTypeInterstitial = "Interstitial";
   static const String adTypeAppOpen = "AppOpen";
   static const String adTypeRewarded = "Rewarded";
+  static const String adTypeBanner = "Banner";
+  static const String adTypeNative = "Native";
 
   Future<void> initSdk(
       String appKey, bool privacy, bool ccpa, bool coppa, bool gdpr) {
@@ -38,5 +40,13 @@ class Yodo1MasFlutterPlugin {
 
   void setAppOpenListener(Function(int event, String message)? callback) {
     Yodo1MasFlutterPluginPlatform.instance.setAppOpenListener(callback);
+  }
+
+  void setBannerListener(Function(int event, String message)? callback) {
+    Yodo1MasFlutterPluginPlatform.instance.setBannerListener(callback);
+  }
+
+  void setNativeListener(Function(int event, String message)? callback) {
+    Yodo1MasFlutterPluginPlatform.instance.setNativeListener(callback);
   }
 }

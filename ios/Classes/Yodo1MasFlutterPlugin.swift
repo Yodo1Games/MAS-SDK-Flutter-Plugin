@@ -18,11 +18,15 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
     private let AD_TYPE_REWARDED_NAME = "Rewarded"
     private let AD_TYPE_INTERSTITIAL_NAME = "Interstitial"
     private let AD_TYPE_APP_OPEN_NAME = "AppOpen"
+    private let AD_TYPE_BANNER_NAME = "Banner"
+    private let AD_TYPE_NATIVE_NAME = "Native"
 
     // Ad Type Codes
     private let AD_TYPE_REWARDED = 1
     private let AD_TYPE_INTERSTITIAL = 2
     private let AD_TYPE_APP_OPEN = 3
+    private let AD_TYPE_BANNER = 4
+    private let AD_TYPE_NATIVE = 5
 
     // Event Type Codes
     private let AD_EVENT_OPENED = 1001

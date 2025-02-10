@@ -12,6 +12,8 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
   Function(int event, String message)? _rewardCallback;
   Function(int event, String message)? _interstitialCallback;
   Function(int event, String message)? _appOpenCallback;
+  Function(int event, String message)? _bannerCallback;
+  Function(int event, String message)? _nativeCallback;
 
   /// The method channel used to interact with the native platform.
   @visibleForTesting
@@ -75,6 +77,16 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
                   _appOpenCallback!(code, message);
                 }
                 break;
+              case Yodo1MasConstants.adTypeNative:
+                if (_nativeCallback != null) {
+                  _nativeCallback!(code, message);
+                }
+                break;
+              case Yodo1MasConstants.adTypeBanner:
+                if (_bannerCallback != null) {
+                  _bannerCallback!(code, message);
+                }
+                break;
             }
           }
       }
@@ -117,19 +129,33 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
     });
   }
 
+  @override
   void setInitListener(Function(bool successful)? callback) {
     _initCallback = callback;
   }
 
+  @override
   void setRewardListener(Function(int event, String message)? callback) {
     _rewardCallback = callback;
   }
 
+  @override
   void setInterstitialListener(Function(int event, String message)? callback) {
     _interstitialCallback = callback;
   }
 
+  @override
   void setAppOpenListener(Function(int event, String message)? callback) {
     _appOpenCallback = callback;
+  }
+
+  @override
+  void setBannerListener(Function(int event, String message)? callback) {
+    _bannerCallback = callback;
+  }
+
+  @override
+  void setNativeListener(Function(int event, String message)? callback) {
+    _nativeCallback = callback;
   }
 }

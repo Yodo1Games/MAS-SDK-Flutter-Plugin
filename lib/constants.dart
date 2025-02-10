@@ -10,7 +10,10 @@ class Yodo1MasConstants {
   // Type of event
   static const int adTypeReward = 1;
   static const int adTypeInterstitial = 2;
-  static const int adTypeAppOpen = 4;
+  static const int adTypeAppOpen = 3;
+  static const int adTypeBanner = 4;
+  static const int adTypeNative = 5;
+
 
   // Type of code
   static const int adEventOpened = 1001;

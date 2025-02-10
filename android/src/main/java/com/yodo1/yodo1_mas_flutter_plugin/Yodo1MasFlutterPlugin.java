@@ -46,11 +46,15 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
   private static final String AD_TYPE_REWARDED_NAME = "Rewarded";
   private static final String AD_TYPE_INTERSTITIAL_NAME = "Interstitial";
   private static final String AD_TYPE_APP_OPEN_NAME = "AppOpen";
+  private static final String AD_TYPE_BANNER_NAME = "Banner";
+  private static final String AD_TYPE_NATIVE_NAME = "Native";
 
   // Ad Type Codes
   static final int AD_TYPE_REWARD = 1;
   static final int AD_TYPE_INTERSTITIAL = 2;
   static final int AD_TYPE_APP_OPEN = 3;
+  static final int AD_TYPE_BANNER = 4;
+  static final int AD_TYPE_NATIVE = 5;
 
   // Ad Event Codes
   static final int AD_EVENT_OPENED = 1001;
@@ -106,6 +110,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
       Yodo1Mas.getInstance().setCOPPA(coppa);
       Yodo1Mas.getInstance().setGDPR(gdpr);
       Yodo1Mas.getInstance().setAdBuildConfig(config);
+      Yodo1Mas.getInstance().setUserIdentifier("anotehr");
       Yodo1Mas.getInstance().initMas(activity, appKey, new Yodo1Mas.InitListener() {
         @Override
         public void onMasInitSuccessful() {
