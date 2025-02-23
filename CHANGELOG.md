@@ -22,3 +22,11 @@
 ## 0.0.5
 
 * Add banner and native ad types support
+
+## 0.0.6
+
+* Added support for latest MAS SDK API (4.14.2)
+
+## 0.0.7
+
+* Fixed build issues on Android with 4.14.2
