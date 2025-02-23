@@ -14,6 +14,7 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import com.yodo1.mas.Yodo1Mas;
+import com.yodo1.mas.Yodo1MasSdkConfiguration;
 import com.yodo1.mas.appopenad.Yodo1MasAppOpenAdListener;
 import com.yodo1.mas.error.Yodo1MasError;
 import com.yodo1.mas.helper.model.Yodo1MasAdBuildConfig;
@@ -25,6 +26,8 @@ import com.yodo1.mas.appopenad.Yodo1MasAppOpenAd;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.UUID;
 
 /** Yodo1MasFlutterPlugin */
 public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -64,6 +67,11 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
   static final int AD_EVENT_FAILED_TO_LOAD = 1005;
   static final int AD_EVENT_EARNED = 2001;
 
+  private static final String TAG = "Yodo1MasFlutterPlugin";
+  private boolean isInit = false;
+  private boolean isInitV2 = false;
+  private Yodo1MasSdkConfiguration yodo1MasSdkConfiguration;
+
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), CHANNEL);
@@ -74,7 +82,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    Log.d("Yodo1MasFlutterPlugin", "onMethodCall: " + call.method);
+    Log.d(TAG, "onMethodCall: " + call.method);
     switch (call.method) {
       case METHOD_NATIVE_INIT_SDK:
         handleInitSdk(call, result);
@@ -110,18 +118,24 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
       Yodo1Mas.getInstance().setCOPPA(coppa);
       Yodo1Mas.getInstance().setGDPR(gdpr);
       Yodo1Mas.getInstance().setAdBuildConfig(config);
-      Yodo1Mas.getInstance().setUserIdentifier("anotehr");
       Yodo1Mas.getInstance().initMas(activity, appKey, new Yodo1Mas.InitListener() {
         @Override
-        public void onMasInitSuccessful() {
+        public void onMasInitSuccessful() {}
+        @Override
+        public void onMasInitSuccessful(Yodo1MasSdkConfiguration yodo1MasSdkInitInfo) {
+          Log.d(TAG, "onMasInitSuccessful: ");
+          Yodo1Mas.getInstance().setUserIdentifier(UUID.randomUUID().toString());
+          
+          // Send success event through Flutter channel
           JSONObject initEvent = new JSONObject();
           try {
             initEvent.put("successful", true);
           } catch (JSONException e) {
             e.printStackTrace();
           }
-          Log.d("Yodo1MasFlutterPlugin", "Flutter SDK Callback - Init Successful - " + initEvent.toString());
-          channel.invokeMethod(METHOD_FLUTTER_INIT_EVENT  , initEvent.toString());
+          Log.d(TAG, "Flutter SDK Callback - Init Successful - " + initEvent.toString());
+          channel.invokeMethod(METHOD_FLUTTER_INIT_EVENT, initEvent.toString());
+          
           result.success(1);
         }
 
@@ -134,7 +148,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
           } catch (JSONException e) {
             e.printStackTrace();
           }
-          Log.d("Yodo1MasFlutterPlugin", "Flutter SDK Callback - Init Failed - " + initEvent.toString());
+          Log.d(TAG, "Flutter SDK Callback - Init Failed - " + initEvent.toString());
           channel.invokeMethod(METHOD_FLUTTER_INIT_EVENT, initEvent.toString());
           result.error("INIT_FAILED", error.getMessage(), null);
         }
@@ -151,21 +165,21 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
       Log.d("Yodo1MasFlutterPlugin", "Flutter SDK Channel Call - Load Ad - " + type);
       switch (type) {
         case Yodo1MasFlutterPlugin.AD_TYPE_REWARDED_NAME:
-          Log.d("Yodo1MasFlutterPlugin", "Flutter SDK Channel Call - Loading Rewarded Ad - " + type);
+          Log.d(TAG, "Flutter SDK Channel Call - Loading Rewarded Ad - " + type);
           activity.runOnUiThread(() -> {
             Yodo1MasRewardAd.getInstance().autoDelayIfLoadFail = true;
             Yodo1MasRewardAd.getInstance().loadAd(activity);
           });
           break;
         case Yodo1MasFlutterPlugin.AD_TYPE_INTERSTITIAL_NAME:
-          Log.d("Yodo1MasFlutterPlugin", "Flutter SDK Channel Call - Loading Interstitial Ad - " + type);
+          Log.d(TAG, "Flutter SDK Channel Call - Loading Interstitial Ad - " + type);
           activity.runOnUiThread(() -> {
             Yodo1MasInterstitialAd.getInstance().autoDelayIfLoadFail = true;
             Yodo1MasInterstitialAd.getInstance().loadAd(activity);
           });
           break;
         case Yodo1MasFlutterPlugin.AD_TYPE_APP_OPEN_NAME:
-          Log.d("Yodo1MasFlutterPlugin", "Flutter SDK Channel Call - Loading AppOpenAd Ad - " + type);
+          Log.d(TAG, "Flutter SDK Channel Call - Loading AppOpenAd Ad - " + type);
           activity.runOnUiThread(() -> {
             Yodo1MasAppOpenAd.getInstance().autoDelayIfLoadFail = true;
             Yodo1MasAppOpenAd.getInstance().loadAd(activity);
@@ -179,7 +193,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
 
   private boolean handleIsAdLoaded(MethodCall call) {
     String type = call.argument("ad_type");
-    Log.d("Yodo1MasFlutterPlugin", "handleIsAdLoaded call arguments: " + call.arguments);
+    Log.d(TAG, "handleIsAdLoaded call arguments: " + call.arguments);
     if (type != null) {
       switch (type) {
         case Yodo1MasFlutterPlugin.AD_TYPE_REWARDED_NAME:
@@ -198,7 +212,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
   private void handleShowAd(MethodCall call) {
     String type = call.argument("ad_type");
     String placementId = call.argument("placement_id");
-    Log.d("Yodo1MasFlutterPlugin", "handleIsAdLoaded call arguments: " + call.arguments);
+    Log.d(TAG, "handleIsAdLoaded call arguments: " + call.arguments);
     if (type != null) {
       switch (type) {
         case Yodo1MasFlutterPlugin.AD_TYPE_REWARDED_NAME:
