@@ -3,6 +3,7 @@ package com.yodo1.yodo1_mas_flutter_plugin;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
@@ -23,6 +24,9 @@ import com.yodo1.mas.interstitial.Yodo1MasInterstitialAdListener;
 import com.yodo1.mas.reward.Yodo1MasRewardAd;
 import com.yodo1.mas.reward.Yodo1MasRewardAdListener;
 import com.yodo1.mas.appopenad.Yodo1MasAppOpenAd;
+import com.yodo1.mas.banner.Yodo1MasBannerAdView;
+import com.yodo1.mas.banner.Yodo1MasBannerAdSize;
+import com.yodo1.mas.banner.Yodo1MasBannerAdDelegate;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -162,7 +166,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
   private void handleLoadAd(MethodCall call) {
     String type = call.argument("ad_type");
     if (type != null) {
-      Log.d("Yodo1MasFlutterPlugin", "Flutter SDK Channel Call - Load Ad - " + type);
+      Log.d(TAG, "Flutter SDK Channel Call - Load Ad - " + type);
       switch (type) {
         case Yodo1MasFlutterPlugin.AD_TYPE_REWARDED_NAME:
           Log.d(TAG, "Flutter SDK Channel Call - Loading Rewarded Ad - " + type);
@@ -183,6 +187,91 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
           activity.runOnUiThread(() -> {
             Yodo1MasAppOpenAd.getInstance().autoDelayIfLoadFail = true;
             Yodo1MasAppOpenAd.getInstance().loadAd(activity);
+          });
+          break;
+        case Yodo1MasFlutterPlugin.AD_TYPE_BANNER_NAME:
+          Log.d(TAG, "Flutter SDK Channel Call - Loading Banner Ad - " + type);
+          activity.runOnUiThread(() -> {
+            Double width = call.argument("width");
+            Double height = call.argument("height");
+            
+            if (width != null && height != null) {
+              Yodo1MasBannerAdView bannerAdView = new Yodo1MasBannerAdView(activity);
+              bannerAdView.setAdSize(Yodo1MasBannerAdSize.Banner);
+              
+              // Create layout params with the specified dimensions
+              ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                width.intValue(),
+                height.intValue()
+              );
+              
+              // Add the banner to the root view
+              ViewGroup rootView = (ViewGroup) activity.getWindow().getDecorView().findViewById(android.R.id.content);
+              rootView.addView(bannerAdView, layoutParams);
+              
+              bannerAdView.setAdDelegate(new Yodo1MasBannerAdDelegate() {
+                @Override
+                public void onBannerAdLoaded(Yodo1MasBannerAdView ad) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_BANNER);
+                    adEvent.put("code", AD_EVENT_LOADED);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+                }
+
+                @Override
+                public void onBannerAdFailedToLoad(Yodo1MasBannerAdView ad, Yodo1MasError error) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_BANNER);
+                    adEvent.put("code", AD_EVENT_FAILED_TO_LOAD);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+                }
+
+                @Override
+                public void onBannerAdOpened(Yodo1MasBannerAdView ad) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_BANNER);
+                    adEvent.put("code", AD_EVENT_OPENED);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+                }
+
+                @Override
+                public void onBannerAdFailedToOpen(Yodo1MasBannerAdView ad, Yodo1MasError error) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_BANNER);
+                    adEvent.put("code", AD_EVENT_FAILED_TO_OPEN);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+                }
+
+                @Override
+                public void onBannerAdClosed(Yodo1MasBannerAdView ad) {
+                  JSONObject adEvent = new JSONObject();
+                  try {
+                    adEvent.put("type", AD_TYPE_BANNER);
+                    adEvent.put("code", AD_EVENT_CLOSED);
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+                  channel.invokeMethod(METHOD_FLUTTER_AD_EVENT, adEvent.toString());
+                }
+              });
+              bannerAdView.loadAd();
+            }
           });
           break;
         default:

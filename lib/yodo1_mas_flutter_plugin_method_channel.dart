@@ -158,4 +158,20 @@ class MethodChannelYodo1MasFlutterPlugin extends Yodo1MasFlutterPluginPlatform {
   void setNativeListener(Function(int event, String message)? callback) {
     _nativeCallback = callback;
   }
+
+  @override
+  Future<void> loadBannerAd({
+    required double width,
+    required double height,
+    double? x,
+    double? y,
+  }) async {
+    await methodChannel.invokeMethod(Yodo1MasConstants.methodNativeLoadAd, {
+      'ad_type': Yodo1MasFlutterPlugin.adTypeBanner,
+      'width': width,
+      'height': height,
+      'x': x,
+      'y': y,
+    });
+  }
 }

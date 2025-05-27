@@ -49,4 +49,18 @@ class Yodo1MasFlutterPlugin {
   void setNativeListener(Function(int event, String message)? callback) {
     Yodo1MasFlutterPluginPlatform.instance.setNativeListener(callback);
   }
+
+  Future<void> loadBannerAd({
+    required double width,
+    required double height,
+    double? x,
+    double? y,
+  }) {
+    return Yodo1MasFlutterPluginPlatform.instance.loadBannerAd(
+      width: width,
+      height: height,
+      x: x,
+      y: y,
+    );
+  }
 }

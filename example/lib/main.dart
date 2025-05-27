@@ -33,6 +33,7 @@ class _MyAppState extends State<MyApp> {
     _yodo1MasFlutterPlugin.setInitListener((bool successful) {
       print('Yodo1 Flutter Init successful $successful');
     });
+
     _yodo1MasFlutterPlugin.setInterstitialListener((int code, String message) {
       bool value = code == Yodo1MasConstants.adEventOpened;
       print('Comparison value $value');
@@ -41,23 +42,27 @@ class _MyAppState extends State<MyApp> {
       }
       print('Yodo1 Flutter Callback Interstitial $code $message');
     });
+
     _yodo1MasFlutterPlugin.setRewardListener((int code, String message) {
       if (code == Yodo1MasConstants.adEventOpened) {
         print('Yodo1 Flutter Rewarded Opened $code $message');
       }
       print('Yodo1 Flutter Callback Rewarded $code $message');
     });
+
     _yodo1MasFlutterPlugin.setAppOpenListener((int code, String message) {
       if (code == Yodo1MasConstants.adEventOpened) {
         print('Yodo1 Flutter AppOpen Opened $code $message');
       }
       print('Yodo1 Flutter Callback AppOpen $code $message');
     });
+
+    // Initialize the SDK
     if (Theme.of(context).platform == TargetPlatform.iOS) {
-      _yodo1MasFlutterPlugin.initSdk("<iOS appKey>", true, true, false, false);
+      _yodo1MasFlutterPlugin.initSdk("ESYQW9ZMA8", true, true, false, false);
     } else if (Theme.of(context).platform == TargetPlatform.android) {
       _yodo1MasFlutterPlugin.initSdk(
-          "<android appKey>", true, true, false, false);
+          "V2CG7NR8Bo", true, true, false, false);
     }
   }
 
@@ -121,6 +126,19 @@ class _MyAppState extends State<MyApp> {
               ElevatedButton(
                 onPressed: () => showAd(Yodo1MasFlutterPlugin.adTypeRewarded),
                 child: const Text('Show Rewarded Ad'),
+              ),
+              ElevatedButton(
+                onPressed: () => _yodo1MasFlutterPlugin.loadBannerAd(
+                  width: 320,
+                  height: 50,
+                  x: 0, // Optional for iOS
+                  y: 0, // Optional for iOS
+                ),
+                child: const Text('Load Banner Ad'),
+              ),
+              ElevatedButton(
+                onPressed: () => showAd(Yodo1MasFlutterPlugin.adTypeBanner),
+                child: const Text('Show Banner Ad'),
               ),
             ],
           ),

@@ -75,4 +75,13 @@ abstract class Yodo1MasFlutterPluginPlatform extends PlatformInterface {
     throw UnimplementedError(
         'setNativeListener(Function(int, String)?) has not been implemented.');
   }
+
+  Future<void> loadBannerAd({
+    required double width,
+    required double height,
+    double? x,
+    double? y,
+  }) {
+    throw UnimplementedError('loadBannerAd() has not been implemented.');
+  }
 }

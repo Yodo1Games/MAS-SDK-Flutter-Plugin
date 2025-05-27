@@ -9,7 +9,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-test~test</string>
+	<string>ca-app-pub-5580537606944457~2623661232</string>
 	<key>GADIsAdManagerApp</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -252,5 +252,7 @@
 		<string>zmvfpc5aq8.skadnetwork</string>
 		<string>zq492l623r.skadnetwork</string>
 	</array>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

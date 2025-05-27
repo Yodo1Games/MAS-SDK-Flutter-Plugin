@@ -93,6 +93,22 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
             Yodo1MasInterstitialAd.sharedInstance().adDelegate = self
             Yodo1MasAppOpenAd.sharedInstance().autoDelayIfLoadFail = true
             Yodo1MasAppOpenAd.sharedInstance().load()
+        case self.AD_TYPE_BANNER_NAME:
+            if let width = args["width"] as? Double,
+               let height = args["height"] as? Double {
+                let x = args["x"] as? Double ?? 0
+                let y = args["y"] as? Double ?? 0
+                
+                let bannerAdView = Yodo1MasBannerAdView(frame: CGRect(x: x, y: y, width: width, height: height))
+                bannerAdView.delegate = self
+                
+                // Add to the root view
+                if let rootViewController = UIApplication.shared.keyWindow?.rootViewController {
+                    rootViewController.view.addSubview(bannerAdView)
+                }
+                
+                bannerAdView.loadAd()
+            }
         default:
             break
         }
@@ -232,5 +248,27 @@ extension Yodo1MasFlutterPlugin: Yodo1MasAppOpenAdDelegate {
 
     public func onAppOpenAdClosed(_ ad: Yodo1MasAppOpenAd) {
         channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_APP_OPEN, "code": AD_EVENT_CLOSED])
+    }
+}
+
+extension Yodo1MasFlutterPlugin: Yodo1MasBannerAdDelegate {
+    public func onBannerAdLoaded(_ ad: Yodo1MasBannerAdView) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_BANNER, "code": AD_EVENT_LOADED])
+    }
+
+    public func onBannerAdFailedToLoad(_ ad: Yodo1MasBannerAdView, withError error: Yodo1MasError) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_BANNER, "code": AD_EVENT_FAILED_TO_LOAD])
+    }
+
+    public func onBannerAdOpened(_ ad: Yodo1MasBannerAdView) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_BANNER, "code": AD_EVENT_OPENED])
+    }
+
+    public func onBannerAdFailedToOpen(_ ad: Yodo1MasBannerAdView, withError error: Yodo1MasError) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_BANNER, "code": AD_EVENT_FAILED_TO_OPEN])
+    }
+
+    public func onBannerAdClosed(_ ad: Yodo1MasBannerAdView) {
+        channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_BANNER, "code": AD_EVENT_CLOSED])
     }
 }
