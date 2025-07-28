@@ -30,3 +30,7 @@
 ## 0.0.7
 
 * Fixed build issues on Android with 4.14.2
+
+## 0.0.8
+
+* Upgraded to 4.15.1 on Android and iOS
