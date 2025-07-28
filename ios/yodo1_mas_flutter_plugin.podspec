@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'yodo1_mas_flutter_plugin'
-  s.version          = '0.0.1'
+  s.version          = '0.0.8'
   s.summary          = 'Flutter plugin for Yodo1 MAS SDK.'
   s.description      = <<-DESC
 Flutter plugin for Yodo1 MAS SDK 4.12+.
@@ -16,7 +16,7 @@ Flutter plugin for Yodo1 MAS SDK 4.12+.
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
   s.platform = :ios, '13.0'
-  s.dependency 'Yodo1MasFull', '4.14.2'
+  s.dependency 'Yodo1MasFull', '4.15.1'
   s.static_framework = true
 
   # Flutter.framework does not contain a i386 slice.

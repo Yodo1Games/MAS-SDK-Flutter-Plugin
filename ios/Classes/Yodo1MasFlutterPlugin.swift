@@ -156,7 +156,7 @@ public class Yodo1MasFlutterPlugin: NSObject, FlutterPlugin, Yodo1MasRewardAdDel
         Yodo1Mas.sharedInstance().initMas(withAppKey: appKey, successful: {
             self.channel?.invokeMethod(self.METHOD_FLUTTER_INIT_EVENT, arguments: ["successful": true])
         }, fail: { error in
-            self.channel?.invokeMethod(self.METHOD_FLUTTER_INIT_EVENT, arguments: ["successful": false, "error": error?.getJsonObject()])
+            self.channel?.invokeMethod(self.METHOD_FLUTTER_INIT_EVENT, arguments: ["successful": false, "error": error.getJsonObject()])
         })
     }
     
@@ -191,23 +191,23 @@ extension Yodo1MasFlutterPlugin: Yodo1MasRewardDelegate {
 }
 
 extension Yodo1MasFlutterPlugin: Yodo1MasInterstitialDelegate {
-    private func onInterstitialAdLoaded(_ ad: Yodo1MasRewardedInterstitialAd) {
+    public func onInterstitialAdLoaded(_ ad: Yodo1MasInterstitialAd) {
         channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_INTERSTITIAL, "code": AD_EVENT_LOADED])
     }
 
-    private func onInterstitialAdFailed(toLoad ad: Yodo1MasRewardedInterstitialAd, withError error: Yodo1MasError) {
+    public func onInterstitialAdFailed(toLoad ad: Yodo1MasInterstitialAd, withError error: Yodo1MasError) {
         channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_INTERSTITIAL, "code": AD_EVENT_FAILED_TO_LOAD])
     }
 
-    private func onInterstitialAdOpened(_ ad: Yodo1MasRewardedInterstitialAd) {
+    public func onInterstitialAdOpened(_ ad: Yodo1MasInterstitialAd) {
         channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_INTERSTITIAL, "code": AD_EVENT_OPENED])
     }
 
-    private func onInterstitialAdFailed(toOpen ad: Yodo1MasRewardedInterstitialAd, withError error: Yodo1MasError) {
+    public func onInterstitialAdFailed(toOpen ad: Yodo1MasInterstitialAd, withError error: Yodo1MasError) {
         channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_INTERSTITIAL, "code": AD_EVENT_FAILED_TO_LOAD])
     }
 
-    private func onInterstitialAdClosed(_ ad: Yodo1MasRewardedInterstitialAd) {
+    public func onInterstitialAdClosed(_ ad: Yodo1MasInterstitialAd) {
         channel?.invokeMethod(METHOD_FLUTTER_AD_EVENT, arguments: ["type": AD_TYPE_INTERSTITIAL, "code": AD_EVENT_CLOSED])
     }
 }

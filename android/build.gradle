@@ -23,7 +23,9 @@ rootProject.allprojects {
         maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
         maven { url "https://artifactory.bidmachine.io/bidmachine" }
         maven { url "https://ysonetwork.s3.eu-west-3.amazonaws.com/sdk/android" }
-        maven { url "https://artifacts.applovin.com/android/beta/" }
+        maven { url "https://repo.pubmatic.com/artifactory/public-repos" }
+        maven { url "https://bitbucket.org/sdkcenter/sdkcenter/raw/release" }
+        maven { url "https://cboost.jfrog.io/artifactory/chartboost-ads/" }
     }
 }
 
@@ -43,7 +45,7 @@ android {
     }
 
     defaultConfig {
-        minSdk = 23
+        minSdk = 24
         multiDexEnabled = true
     }
 
@@ -65,5 +67,5 @@ android {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version")
-    implementation("com.yodo1.mas:full:4.14.2")
+    implementation("com.yodo1.mas:full:4.15.1")
 }

@@ -161,7 +161,7 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
 
   private void handleLoadAd(MethodCall call) {
     String type = call.argument("ad_type");
-    if (type != null) {
+    if (type != null && activity != null) {
       Log.d("Yodo1MasFlutterPlugin", "Flutter SDK Channel Call - Load Ad - " + type);
       switch (type) {
         case Yodo1MasFlutterPlugin.AD_TYPE_REWARDED_NAME:
@@ -212,8 +212,8 @@ public class Yodo1MasFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
   private void handleShowAd(MethodCall call) {
     String type = call.argument("ad_type");
     String placementId = call.argument("placement_id");
-    Log.d(TAG, "handleIsAdLoaded call arguments: " + call.arguments);
-    if (type != null) {
+    Log.d(TAG, "handleShowAd call arguments: " + call.arguments);
+    if (type != null && activity != null) {
       switch (type) {
         case Yodo1MasFlutterPlugin.AD_TYPE_REWARDED_NAME:
           activity.runOnUiThread(() -> {
