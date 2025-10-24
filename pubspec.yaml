@@ -1,6 +1,6 @@
 name: yodo1_mas_flutter_plugin
 description: "This plugin enables you to integrate the lastest Yodo1 MAS SDK in your Flutter project."
-version: 0.0.8
+version: 0.0.9
 homepage: https://yodo1.com
 repository: https://github.com/Yodo1Games/MAS-SDK-Flutter-Plugin
 
