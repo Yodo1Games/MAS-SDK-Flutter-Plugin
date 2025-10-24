@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'yodo1_mas_flutter_plugin'
-  s.version          = '0.0.8'
+  s.version          = '0.0.9'
   s.summary          = 'Flutter plugin for Yodo1 MAS SDK.'
   s.description      = <<-DESC
 Flutter plugin for Yodo1 MAS SDK 4.12+.
