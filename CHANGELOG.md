@@ -38,3 +38,7 @@
 ## 0.0.9
 
 * Remove buggy TaurusX network
+
+## 1.0.0
+
+* Upgraded to 4.17.1 on Android and iOS

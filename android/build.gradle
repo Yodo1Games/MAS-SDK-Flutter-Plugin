@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:8.1.0")
+        classpath("com.android.tools.build:gradle:8.1.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
     }
 }
@@ -19,13 +19,12 @@ rootProject.allprojects {
         google()
         mavenCentral()
         maven { url "https://artifact.bytedance.com/repository/pangle" }
-        maven { url "https://android-sdk.is.com" }
-        maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
-        maven { url "https://artifactory.bidmachine.io/bidmachine" }
-        maven { url "https://ysonetwork.s3.eu-west-3.amazonaws.com/sdk/android" }
-        maven { url "https://repo.pubmatic.com/artifactory/public-repos" }
-        maven { url "https://bitbucket.org/sdkcenter/sdkcenter/raw/release" }
-        maven { url "https://cboost.jfrog.io/artifactory/chartboost-ads/" }
+maven { url "https://android-sdk.is.com" }
+maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
+maven { url "https://artifactory.bidmachine.io/bidmachine" }
+maven { url "https://ysonetwork.s3.eu-west-3.amazonaws.com/sdk/android" }
+maven { url "https://repo.pubmatic.com/artifactory/public-repos" }
+maven { url "https://cboost.jfrog.io/artifactory/chartboost-ads/" }
     }
 }
 
@@ -69,92 +68,92 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version")
     
     // Core
-    implementation 'com.yodo1.mas:core:4.15.1'
-    implementation 'com.yodo1.mas:gplibrary:4.15.1'
+    implementation 'com.yodo1.mas:core:4.17.1'
+    implementation 'com.yodo1.mas:gplibrary:4.17.1'
 
     // AppLovin
-    implementation 'com.yodo1.mas.mediation:applovin:4.15.1'
-    implementation 'com.yodo1.mas.mediation.applovin.adapters:admob:4.15.1'
-    implementation 'com.yodo1.mas.mediation.applovin.adapters:ironsource:4.15.1'
+    implementation 'com.yodo1.mas.mediation:applovin:4.17.1'
+    implementation 'com.yodo1.mas.mediation.applovin.adapters:admob:4.17.1'
+    implementation 'com.yodo1.mas.mediation.applovin.adapters:ironsource:4.17.1'
 
     // BidMachine
-    implementation 'com.yodo1.mas.mediation:bidmachine:4.15.1'
-    implementation 'com.yodo1.mas.mediation.bidmachine.adapters:applovin:4.15.1'
-    implementation 'com.yodo1.mas.mediation.bidmachine.adapters:ironsource:4.15.1'
+    implementation 'com.yodo1.mas.mediation:bidmachine:4.17.1'
+    implementation 'com.yodo1.mas.mediation.bidmachine.adapters:applovin:4.17.1'
+    implementation 'com.yodo1.mas.mediation.bidmachine.adapters:ironsource:4.17.1'
 
     // Bigo Ads
-    implementation 'com.yodo1.mas.mediation:bigo:4.15.1'
-    implementation 'com.yodo1.mas.mediation.bigo.adapters:applovin:4.15.1'
-    implementation 'com.yodo1.mas.mediation.bigo.adapters:ironsource:4.15.1'
+    implementation 'com.yodo1.mas.mediation:bigo:4.17.1'
+    implementation 'com.yodo1.mas.mediation.bigo.adapters:applovin:4.17.1'
+    implementation 'com.yodo1.mas.mediation.bigo.adapters:ironsource:4.17.1'
 
     // DT Exchange(Fyber)
-    implementation 'com.yodo1.mas.mediation:fyber:4.15.1'
-    implementation 'com.yodo1.mas.mediation.fyber.adapters:applovin:4.15.1'
-    implementation 'com.yodo1.mas.mediation.fyber.adapters:admob:4.15.1'
-    implementation 'com.yodo1.mas.mediation.fyber.adapters:ironsource:4.15.1'
+    implementation 'com.yodo1.mas.mediation:fyber:4.17.1'
+    implementation 'com.yodo1.mas.mediation.fyber.adapters:applovin:4.17.1'
+    implementation 'com.yodo1.mas.mediation.fyber.adapters:admob:4.17.1'
+    implementation 'com.yodo1.mas.mediation.fyber.adapters:ironsource:4.17.1'
 
     // Google AdMob
-    implementation 'com.yodo1.mas.mediation:admob:4.15.1'
-    implementation 'com.yodo1.mas.mediation.admob.adapters:applovin-admob:4.15.1'
-    implementation 'com.yodo1.mas.mediation.admob.adapters:applovin-ad-manager:4.15.1'
-    implementation 'com.yodo1.mas.mediation.admob.adapters:ironsource:4.15.1'
+    implementation 'com.yodo1.mas.mediation:admob:4.17.1'
+    implementation 'com.yodo1.mas.mediation.admob.adapters:applovin-admob:4.17.1'
+    implementation 'com.yodo1.mas.mediation.admob.adapters:applovin-ad-manager:4.17.1'
+    implementation 'com.yodo1.mas.mediation.admob.adapters:ironsource:4.17.1'
 
     // ironSource
-    implementation 'com.yodo1.mas.mediation:ironsource:4.15.1'
-    implementation 'com.yodo1.mas.mediation.ironsource.adapters:applovin:4.15.1'
-    implementation 'com.yodo1.mas.mediation.ironsource.adapters:admob:4.15.1'
+    implementation 'com.yodo1.mas.mediation:ironsource:4.17.1'
+    implementation 'com.yodo1.mas.mediation.ironsource.adapters:applovin:4.17.1'
+    implementation 'com.yodo1.mas.mediation.ironsource.adapters:admob:4.17.1'
 
     // InMobi
-    implementation 'com.yodo1.mas.mediation:inmobi:4.15.1'
-    implementation 'com.yodo1.mas.mediation.inmobi.adapters:applovin:4.15.1'
-    implementation 'com.yodo1.mas.mediation.inmobi.adapters:admob:4.15.1'
-    implementation 'com.yodo1.mas.mediation.inmobi.adapters:ironsource:4.15.1'
+    implementation 'com.yodo1.mas.mediation:inmobi:4.17.1'
+    implementation 'com.yodo1.mas.mediation.inmobi.adapters:applovin:4.17.1'
+    implementation 'com.yodo1.mas.mediation.inmobi.adapters:admob:4.17.1'
+    implementation 'com.yodo1.mas.mediation.inmobi.adapters:ironsource:4.17.1'
 
     // Liftoff Monetize(Vungle)
-    implementation 'com.yodo1.mas.mediation:vungle:4.15.1'
-    implementation 'com.yodo1.mas.mediation.vungle.adapters:applovin:4.15.1'
-    implementation 'com.yodo1.mas.mediation.vungle.adapters:admob:4.15.1'
-    implementation 'com.yodo1.mas.mediation.vungle.adapters:ironsource:4.15.1'
+    implementation 'com.yodo1.mas.mediation:vungle:4.17.1'
+    implementation 'com.yodo1.mas.mediation.vungle.adapters:applovin:4.17.1'
+    implementation 'com.yodo1.mas.mediation.vungle.adapters:admob:4.17.1'
+    implementation 'com.yodo1.mas.mediation.vungle.adapters:ironsource:4.17.1'
 
     // Meta Audience Network(Facebook)
-    implementation 'com.yodo1.mas.mediation:facebook:4.15.1'
-    implementation 'com.yodo1.mas.mediation.facebook.adapters:applovin:4.15.1'
-    implementation 'com.yodo1.mas.mediation.facebook.adapters:admob:4.15.1'
-    implementation 'com.yodo1.mas.mediation.facebook.adapters:ironsource:4.15.1'
+    implementation 'com.yodo1.mas.mediation:facebook:4.17.1'
+    implementation 'com.yodo1.mas.mediation.facebook.adapters:applovin:4.17.1'
+    implementation 'com.yodo1.mas.mediation.facebook.adapters:admob:4.17.1'
+    implementation 'com.yodo1.mas.mediation.facebook.adapters:ironsource:4.17.1'
 
     // Mintegral
-    implementation 'com.yodo1.mas.mediation:mintegral:4.15.1'
-    implementation 'com.yodo1.mas.mediation.mintegral.adapters:applovin:4.15.1'
-    implementation 'com.yodo1.mas.mediation.mintegral.adapters:admob:4.15.1'
-    implementation 'com.yodo1.mas.mediation.mintegral.adapters:ironsource:4.15.1'
+    implementation 'com.yodo1.mas.mediation:mintegral:4.17.1'
+    implementation 'com.yodo1.mas.mediation.mintegral.adapters:applovin:4.17.1'
+    implementation 'com.yodo1.mas.mediation.mintegral.adapters:admob:4.17.1'
+    implementation 'com.yodo1.mas.mediation.mintegral.adapters:ironsource:4.17.1'
 
     // Moloco
-    implementation 'com.yodo1.mas.mediation:moloco:4.15.1'
-    implementation 'com.yodo1.mas.mediation.moloco.adapters:admob:4.15.1'
-    implementation 'com.yodo1.mas.mediation.moloco.adapters:applovin:4.15.1'
-    implementation 'com.yodo1.mas.mediation.moloco.adapters:ironsource:4.15.1'
+    implementation 'com.yodo1.mas.mediation:moloco:4.17.1'
+    implementation 'com.yodo1.mas.mediation.moloco.adapters:admob:4.17.1'
+    implementation 'com.yodo1.mas.mediation.moloco.adapters:applovin:4.17.1'
+    implementation 'com.yodo1.mas.mediation.moloco.adapters:ironsource:4.17.1'
 
     // Pangle
-    implementation 'com.yodo1.mas.mediation:pangle:4.15.1'
-    implementation 'com.yodo1.mas.mediation.pangle.adapters:applovin:4.15.1'
-    implementation 'com.yodo1.mas.mediation.pangle.adapters:admob:4.15.1'
-    implementation 'com.yodo1.mas.mediation.pangle.adapters:ironsource:4.15.1'
+    implementation 'com.yodo1.mas.mediation:pangle:4.17.1'
+    implementation 'com.yodo1.mas.mediation.pangle.adapters:applovin:4.17.1'
+    implementation 'com.yodo1.mas.mediation.pangle.adapters:admob:4.17.1'
+    implementation 'com.yodo1.mas.mediation.pangle.adapters:ironsource:4.17.1'
 
     // Unity Ads
-    implementation 'com.yodo1.mas.mediation:unityads:4.15.1'
-    implementation 'com.yodo1.mas.mediation.unityads.adapters:applovin:4.15.1'
-    implementation 'com.yodo1.mas.mediation.unityads.adapters:admob:4.15.1'
-    implementation 'com.yodo1.mas.mediation.unityads.adapters:ironsource:4.15.1'
+    implementation 'com.yodo1.mas.mediation:unityads:4.17.1'
+    implementation 'com.yodo1.mas.mediation.unityads.adapters:applovin:4.17.1'
+    implementation 'com.yodo1.mas.mediation.unityads.adapters:admob:4.17.1'
+    implementation 'com.yodo1.mas.mediation.unityads.adapters:ironsource:4.17.1'
 
     // Yandex
-    implementation 'com.yodo1.mas.mediation:yandex:4.15.1'
-    implementation 'com.yodo1.mas.mediation.yandex.adapters:applovin:4.15.1'
-    implementation 'com.yodo1.mas.mediation.yandex.adapters:ironsource:4.15.1'
+    implementation 'com.yodo1.mas.mediation:yandex:4.17.1'
+    implementation 'com.yodo1.mas.mediation.yandex.adapters:applovin:4.17.1'
+    implementation 'com.yodo1.mas.mediation.yandex.adapters:ironsource:4.17.1'
 
     // YSO Network
-    implementation 'com.yodo1.mas.mediation:yso:4.15.1'
-    implementation 'com.yodo1.mas.mediation.yso.adapters:applovin:4.15.1'
+    implementation 'com.yodo1.mas.mediation:yso:4.17.1'
+    implementation 'com.yodo1.mas.mediation.yso.adapters:applovin:4.17.1'
 
     // Yodo1 Test Ads
-    implementation 'com.yodo1.mas.mediation:yodo1:4.15.1'
+    implementation 'com.yodo1.mas.mediation:yodo1:4.17.1'
 }
